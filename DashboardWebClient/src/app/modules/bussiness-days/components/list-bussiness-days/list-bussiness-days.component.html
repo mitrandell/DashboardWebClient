@@ -1,0 +1,48 @@
+<div class="table-title d-inline-flex col-12 border border-secondary-subtle border-1 rounded-3 p-3 mt-2 text-center">
+  <div class="col-2 me-2">
+    <select class="form-select" [(ngModel)]="selectedMonth" (ngModelChange)="loadData()" style="cursor: pointer">
+      <option *ngFor="let month of months" [ngValue]="month">{{ month }}</option>
+    </select>
+  </div>
+  <div class="col-2">
+    <select class="form-select" [(ngModel)]="selectedYear" (ngModelChange)="loadData()" style="cursor: pointer">
+      <option *ngFor="let year of years" [ngValue]="year">{{ year }}</option>
+    </select>
+  </div>
+</div>
+<div class="mt-2 shadow-lg mb-5">
+  <table class="table table-light table-bordered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>
+          Дата
+        </th>
+        <th>
+          Тип
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let day of days; let i=index" (click)="showContextMenu($event, i)">
+      <tr style="cursor: pointer; font-size: 1.5vh">
+        <td [ngClass]="{'weekend': day.typeId === 2}" class="p-1">
+          {{ day.date}}
+        </td>
+        <td *ngIf="day.typeId === 1" class="p-1">
+          Рабочий
+        </td>
+        <td *ngIf="day.typeId === 2" [ngClass]="{'weekend': day.typeId === 2}" class="p-1">
+          Выходной
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="contextMenuVisible"
+       class="context-menu"
+       [style.left.px]="contextMenuPosition.x"
+       [style.top.px]="contextMenuPosition.y">
+    <button (click)="openEditModal(); $event.stopPropagation()">Редактировать</button>
+  </div>
+</div>
+
+<app-edit-bussiness-day #editModal></app-edit-bussiness-day>
+<app-loader [loading]="isLoading"></app-loader>

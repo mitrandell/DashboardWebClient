@@ -1,0 +1,13 @@
+<div class="border border-secondary-subtle rounded-2 shadow-lg p-3 ms-4 mt-2">
+  <div class="chart-title d-inline-flex col-12">
+    <h5 class="mx-auto mt-1">Количество однотипных обращений</h5>
+    <button type="button" class="btn btn-outline-secondary me-2" (click)="loadDataForYear()">За год</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="loadDataForWeek()">За неделю</button>
+  </div>
+  <div class="chart-container">
+    <canvas height="400" #chart id="chart">{{ chart }}</canvas>
+  </div>
+</div>
+
+<app-loader [loading]="isLoading"></app-loader>
+<app-error-modal #errorModal></app-error-modal>

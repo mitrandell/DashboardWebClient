@@ -1,0 +1,70 @@
+<button class="btn btn-outline-success shadow" (click)="open(content)">+</button>
+
+<ng-template #content let-modal>
+  <app-loader *ngIf="isLoading"></app-loader>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-create-title" style="text-align:center">Добавление критичной или блокирующей проблемы</h3>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="create()">
+      <div class="d-flex">
+        <div class="form-group me-1">
+          <label for="task-number-create-form-field">Номер задачи</label>
+          <input type="number"
+                 class="form-control"
+                 id="task-number-create-form-field"
+                 formControlName="taskNumber"
+                 name="task-number-field" />
+        </div>
+        <div class="form-group me-1">
+          <label>Статус в itsm</label>
+          <select class="form-select" formControlName="itsmStatus">
+            <option [ngValue]="itsmStatuses.new">{{ itsmStatuses.new }}</option>
+            <option [ngValue]="itsmStatuses.inProccess">{{ itsmStatuses.inProccess }}</option>
+            <option [ngValue]="itsmStatuses.completed">{{ itsmStatuses.completed }}</option>
+          </select>
+        </div>
+        <div class="form-group me-1">
+          <label>Статус в redmine</label>
+          <select class="form-select" formControlName="redmineSatus">
+            <option [ngValue]="redmineStatuses.new">{{ redmineStatuses.new }}</option>
+            <option [ngValue]="redmineStatuses.inProccess">{{ redmineStatuses.inProccess }}</option>
+            <option [ngValue]="redmineStatuses.completed">{{ redmineStatuses.completed }}</option>
+          </select>
+        </div>
+        <div class="form-group col-2 me-1">
+          <label>Начало</label>
+          <input type="datetime-local"
+                 class="form-control"
+                 id="start-time-create-form-field"
+                 formControlName="startDate"
+                 name="start-time-field" />
+        </div>
+        <div class="form-group col-2">
+          <label>Крайний срок</label>
+          <input type="datetime-local"
+                 class="form-control"
+                 id="end-time-create-form-field"
+                 formControlName="endDate"
+                 name="end-time-field" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description-create-form-field">Описание</label>
+        <input type="text"
+               class="form-control"
+               id="description-create-form-field"
+               formControlName="description"
+               name="description-field" />
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-outline-success me-2 mt-2">Добавить</button>
+        <button type="button" class="btn btn-outline-danger mt-2" (click)="modal.dismiss()">Отменить</button>
+      </div>
+    </form>
+  </div>
+  <app-loader [loading]="isLoading"></app-loader>
+</ng-template>
+
+<app-error-modal #errorModal></app-error-modal>

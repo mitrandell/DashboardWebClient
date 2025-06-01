@@ -1,0 +1,30 @@
+<app-sidebar [isSidebarCollapsed]="isSidebarCollapsed"></app-sidebar>
+<div class="container">
+  <!--<app-create-tasks></app-create-tasks>
+  <div class="col-12 d-inline-flex">
+    <div class="col-6">
+      <app-linechart></app-linechart>
+    </div>
+    <div class="col-6">
+      <app-barchart-same-tasks></app-barchart-same-tasks>
+    </div>
+  </div>
+  <app-barchart-system-sections></app-barchart-system-sections>
+  <div class="col-12 d-inline-flex mt-2">
+    <div class="col-6">
+      <app-table-avg-time-system-sections></app-table-avg-time-system-sections>
+    </div>
+    <div class="col-6">
+      <app-table-avg-executed-time-same-tasks></app-table-avg-executed-time-same-tasks>
+    </div>
+  </div>
+  @defer (on viewport){
+  <app-list-developer-task></app-list-developer-task>
+  <app-list-critical-task></app-list-critical-task>
+  <app-table-task-list></app-table-task-list>
+  } @placeholder {
+  <div>Загрузка графика...</div>
+  }-->
+  <router-outlet></router-outlet>
+</div>
+

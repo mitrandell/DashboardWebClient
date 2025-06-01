@@ -1,0 +1,71 @@
+
+<div class="mt-5 shadow">
+  <div class="d-inline-flex table-title col-12 border border-secondary-subtle border-bottom-0 border-1 p-3 mb-0 rounded-top text-center">
+    <app-create-developer-task></app-create-developer-task>
+    <h5 class="mx-auto mt-1">Открытые задачи в itsm на разработку</h5>
+  </div>
+  <div class="table-responsive text-center" style="max-height: 600px">
+    <table class="table table-light table-bordered table-hover mb-0" style="max-height: 600px">
+      <thead>
+        <tr>
+          <th>
+            Номер
+          </th>
+          <th>
+            Статус в itsm
+          </th>
+          <th>
+            Статув в redmine
+          </th>
+          <th>
+            Описание
+          </th>
+          <th>
+            Дата регистрации
+          </th>
+          <th>
+            Крайний срок
+          </th>
+          <th>
+            Статус проблемы
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let data of taskData; let i=index" (click)="showContextMenu($event, i)" style="cursor: pointer">
+        <tr>
+          <td>
+            {{ data.taskNumber }}
+          </td>
+          <td class="text-center">
+            {{ data.itsmStatus }}
+          </td>
+          <td class="text-center">
+            {{ data.redmineSatus }}
+          </td>
+          <td class="text-center">
+            {{ data.description }}
+          </td>
+          <td class="text-center">
+            {{ data.startDate | date : "dd/MM/yy HH:mm"}}
+          </td>
+          <td class="text-center">
+            {{ data.endDate | date : "dd/MM/yy HH:mm"}}
+          </td>
+          <td class="text-center">
+            {{ data.actionStatus }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="contextMenuVisible"
+       class="context-menu"
+       [style.left.px]="contextMenuPosition.x"
+       [style.top.px]="contextMenuPosition.y">
+    <button (click)="openEditModal(); $event.stopPropagation()">Редактировать</button>
+  </div>
+</div>
+
+<app-edit-developer-task #editModal></app-edit-developer-task>
+<app-loader [loading]="isLoading"></app-loader>
+<app-error-modal #errorModal></app-error-modal>

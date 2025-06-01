@@ -1,0 +1,21 @@
+<div class="sidebar bg-dark" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+  <div class="sidebar-header">
+    <div class="sidebar-toggle"
+         [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+         (click)="onSidebarToggle()">
+      <i class="h3 text-white" [class]="isSidebarCollapsed ? 'bi bi-arrow-bar-right' : 'bi bi-arrow-bar-left'" style="cursor: pointer"></i>
+    </div>
+  </div>
+  <div class="sidebar-menu">
+    <ul>
+      <li class="sidebar-menu-item" routerLink="/">
+        <i class="bi bi-pie-chart-fill me-2 h3"></i>
+        <a class="nav-link mb-2" *ngIf="!isSidebarCollapsed">Статистика</a>
+      </li>
+      <li class="sidebar-menu-item" routerLink="bussiness-days">
+        <i class="bi bi-calendar3 me-2 h3"></i>
+        <a class="nav-link mb-2" *ngIf="!isSidebarCollapsed">Календарь</a>
+      </li>
+    </ul>
+  </div>
+</div>

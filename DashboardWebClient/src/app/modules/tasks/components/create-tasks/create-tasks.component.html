@@ -1,0 +1,14 @@
+<form class="d-inline-flex ms-2 text-center mt-2">
+  <div class="form-group col-6 pe-2">
+    <input type="file"
+           class="form-control"
+           accept=".xlsx"
+           id="formFile" (change)="onChange($event)">
+  </div>
+  <div class="col-4">
+    <button type="button" class="w-100 btn btn-primary text-light me-2" (click)="saveData()">Добавить</button>
+  </div>
+  <app-loader [loading]="isLoading"></app-loader>
+</form>
+
+<app-error-modal #errorModal></app-error-modal>
