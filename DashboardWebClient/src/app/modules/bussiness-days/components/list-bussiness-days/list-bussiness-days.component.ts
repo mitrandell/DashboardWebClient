@@ -40,7 +40,7 @@ export class ListBussinessDaysComponent implements OnInit, OnDestroy{
 
     this.changeBussinessDayDataSubscription = this.bussnessDaysService.changeBussinessDayData$.subscribe(result => {
       if (result) {
-        this.getData();
+        this.loadData();
       }
     })
   }

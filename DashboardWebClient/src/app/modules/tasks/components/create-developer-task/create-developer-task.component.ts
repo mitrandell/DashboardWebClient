@@ -32,18 +32,20 @@ export class CreateDeveloperTaskComponent {
     completed: 'Выполнена'
   }
 
+  defaultForm = {
+    taskNumber: [0, Validators.maxLength(10)],
+    itsmStatus: [''],
+    redmineSatus: [''],
+    description: [''],
+    startDate: [''],
+    endDate: [''],
+    actionStatus: ['В процессе']
+  }
+
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
 
   constructor(private fb: FormBuilder, private taskService: TaskService) {
-    this.form = this.fb.group({
-      taskNumber: [0, Validators.maxLength(10)],
-      itsmStatus: [''],
-      redmineSatus: [''],
-      description: [''],
-      startDate: [''],
-      endDate: [''],
-      actionStatus: ['В процессе']
-    });
+    this.form = this.fb.group(this.defaultForm);
   }
 
   create() {
@@ -75,6 +77,7 @@ export class CreateDeveloperTaskComponent {
       ariaLabelledBy: 'modal-basic-title'
     };
 
+    this.form = this.fb.group(this.defaultForm);
     const buttonElement = document.activeElement as HTMLElement;
     buttonElement.blur();
 

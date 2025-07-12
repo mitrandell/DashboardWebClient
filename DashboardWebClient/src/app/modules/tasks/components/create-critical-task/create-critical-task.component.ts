@@ -33,7 +33,7 @@ export class CreateCriticalTaskComponent {
     completed: 'Выполнена'
   }
 
-  defultForm = {
+  defaultForm = {
     taskNumber: [0],
     itsmStatus: [''],
     redmineSatus: [''],
@@ -46,7 +46,7 @@ export class CreateCriticalTaskComponent {
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
 
   constructor(private fb: FormBuilder, private taskService: TaskService) {
-    this.form = this.fb.group(this.defultForm);
+    this.form = this.fb.group(this.defaultForm);
   }
 
 
@@ -72,12 +72,12 @@ export class CreateCriticalTaskComponent {
   }
 
   open(content: TemplateRef<any>) {
-    this.form = this.fb.group(this.defultForm);
     const options: NgbModalOptions = {
       size: 'lg',
       ariaLabelledBy: 'modal-basic-title'
     };
 
+    this.form = this.fb.group(this.defaultForm);
     const buttonElement = document.activeElement as HTMLElement;
     buttonElement.blur();
 
