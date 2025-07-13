@@ -1,4 +1,4 @@
-<div class="sidebar bg-dark" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+<div *ngIf="userData.isLoggedIn" class="sidebar bg-dark" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
   <div class="sidebar-header">
     <div class="sidebar-toggle"
          [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
@@ -15,6 +15,11 @@
       <li class="sidebar-menu-item" routerLink="bussiness-days">
         <i class="bi bi-calendar3 me-2 h3"></i>
         <a class="nav-link mb-2" *ngIf="!isSidebarCollapsed">Календарь</a>
+      </li>
+      <hr style="margin:0; padding: 0"/>
+      <li class="sidebar-menu-item" (click)="logout()">
+        <i class="bi bi-box-arrow-left me-2 h3" style="color: red"></i>
+        <a class="nav-link mb-2" *ngIf="!isSidebarCollapsed">Выход</a>
       </li>
     </ul>
   </div>
