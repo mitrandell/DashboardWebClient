@@ -1,6 +1,6 @@
 import { Observable, throwError } from "rxjs";
 
-export function multipleErrorHandler(error: ErrorEvent): Observable<string> {
+export function multipleErrorHandler(error: any): Observable<string> {
   let errorMessage = [];
 
   if (typeof error.error === 'string') {
@@ -13,6 +13,9 @@ export function multipleErrorHandler(error: ErrorEvent): Observable<string> {
     for (let err of error.error.errorArray) {
       errorMessage.push(err.description);
     }
+  }
+  else if (error.status === 401) {
+    errorMessage.push("Некорректный логин или пароль");
   }
   else {
     errorMessage.push("Произошла неизвестная ошибка, попробуйте повторить чуть позже")

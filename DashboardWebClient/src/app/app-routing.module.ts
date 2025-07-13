@@ -5,10 +5,13 @@ import { LinechartComponent } from './modules/charts/components/linechart/linech
 import { ListNotesComponent } from './modules/notes/components/list-notes/list-notes.component';
 import { DashboardComponent } from './modules/dashboard/components/dashboard/dashboard.component';
 import { ListBussinessDaysComponent } from './modules/bussiness-days/components/list-bussiness-days/list-bussiness-days.component';
+import { UserLoginComponent } from './modules/authorization/components/user-login/user-login.component';
+import { AuthorizationUserGuard } from './modules/authorization/guards/authorization-user-guard.guard';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
-  { path: 'bussiness-days', component: ListBussinessDaysComponent },
+  { path: 'login', component: UserLoginComponent, pathMatch: 'full' },
+  { path: '', component: DashboardComponent, canActivate: [AuthorizationUserGuard] },
+  { path: 'bussiness-days', component: ListBussinessDaysComponent, canActivate: [AuthorizationUserGuard] },
 ];
 
 @NgModule({

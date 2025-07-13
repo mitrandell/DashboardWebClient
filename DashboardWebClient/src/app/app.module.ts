@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreateTasksComponent } from './modules/tasks/components/create-tasks/create-tasks.component';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderComponent } from './modules/shared/components/loader/loader.component';
 /*import { provideCharts, withDefaultRegisterables } from 'ng2-charts';*/
@@ -28,6 +28,8 @@ import { DashboardComponent } from './modules/dashboard/components/dashboard/das
 import { ListBussinessDaysComponent } from './modules/bussiness-days/components/list-bussiness-days/list-bussiness-days.component';
 import { EditBussinessDayComponent } from './modules/bussiness-days/components/edit-bussiness-day/edit-bussiness-day.component';
 import { ErrorModalComponent } from './modules/shared/components/error-modal/error-modal.component';
+import { UserLoginComponent } from './modules/authorization/components/user-login/user-login.component';
+import { HttpInterceptorService } from './modules/authorization/services/http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { ErrorModalComponent } from './modules/shared/components/error-modal/err
     DashboardComponent,
     ListBussinessDaysComponent,
     EditBussinessDayComponent,
-    ErrorModalComponent
+    ErrorModalComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,7 @@ import { ErrorModalComponent } from './modules/shared/components/error-modal/err
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [/*provideCharts(withDefaultRegisterables())*/],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
