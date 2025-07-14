@@ -28,6 +28,8 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   defaultRequestDate = new Date().setDate(this.currentDate.getDate() - 8);
   requestDate = this.defaultRequestDate;
 
+  months = ["Январь", "Февраль", "Март", "Апрель", "Май", "июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+
   isChangeTaskDataSubscribtion!: Subscription;
 
   @ViewChild('chart', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
@@ -38,11 +40,11 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   }
 
   ngOnInit() {
-    this.createDataSet();
+    this.loadDataForWeek();
 
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.createDataSet();
+        this.loadDataForWeek();
       }
     })
   }
@@ -80,7 +82,67 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
     return config;
   }
 
-  createDataSet() {
+  createDataSetForYear() {
+    this.isLoading = true;
+    this.taskService.getTasks(this.requestDate).subscribe({
+      next: result => {
+        if (Array.isArray(result)) {
+          this.taskData = result;
+
+          const labels: string[] = this.taskData.map(data => data.startTaskDate);
+
+          const months = [...new Set(
+            this.taskData.map(data => {
+              const dateObj = new Date(data.startTaskDate);
+              return dateObj.getMonth() + 1;
+            })
+          )]
+
+          this.chartLabelSet = months.map(month => {
+            return this.months[month - 1]
+          });
+
+          const systems = this.taskData.map(item => item.systemSectionName);
+
+          var uniqueSystems = systems.filter((value, index, array) => {
+            return array.indexOf(value) === index;
+          })
+
+          const dataSets = uniqueSystems.map(system => {
+            const systemData = months.map(month => {
+              const item = this.taskData.filter(d => {
+                const date = new Date(d.startTaskDate).getMonth() + 1;
+                return (
+                  date === month &&
+                  d.systemSectionName === system
+                );
+              }).length;
+
+              return item;
+            })
+
+            return {
+              label: system,
+              data: systemData
+            }
+          })
+
+          this.chartDataSet = dataSets;
+
+          const config = this.formationConfig();
+          this.updateChartData(this.chartCanvas.nativeElement, config);
+        }
+
+        this.isLoading = false;
+      },
+      error: err => {
+        this.isLoading = false;
+        this.errorModal.openModal(err);
+      }
+    })
+  }
+
+  createDataSetForWeak() {
     this.isLoading = true;
     this.taskService.getTasks(this.requestDate).subscribe({
       next: result => {
@@ -136,7 +198,7 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
 
     this.requestDate = new Date().setDate(this.currentDate.getDate() - 8);
 
-    this.createDataSet();
+    this.createDataSetForWeak();
   }
 
   loadDataForYear() {
@@ -145,7 +207,7 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
     const currentYearDate = new Date(this.currentDate.getFullYear(), 1, 1)
     this.requestDate = new Date(currentYearDate).getMilliseconds();
 
-    this.createDataSet();
+    this.createDataSetForYear();
   }
 
 

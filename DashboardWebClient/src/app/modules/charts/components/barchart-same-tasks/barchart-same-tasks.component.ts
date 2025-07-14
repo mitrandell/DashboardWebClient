@@ -41,11 +41,11 @@ export class BarchartSameTasksComponent extends ChartBase {
   }
 
   ngOnInit() {
-    this.createDataSet();
+    this.createDataSetForYear();
 
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.createDataSet();
+        this.createDataSetForYear();
       }
     })
   }
@@ -83,7 +83,7 @@ export class BarchartSameTasksComponent extends ChartBase {
     return config;
   }
 
-  createDataSet() {
+  createDataSetForYear() {
     this.isLoading = true;
     this.taskService.getTasks(this.requestDate).subscribe({
       next: result => {
@@ -106,7 +106,6 @@ export class BarchartSameTasksComponent extends ChartBase {
           const dataSets = uniqueSystems.map(system => {
             const systemData = duplicateTaskTitles.map(title => {
               const item = uniqueTaskData.map(d => d.systemSectionName === system && d.title === title && this.taskDates.includes(d.startTaskDate));
-
               return item.reduce((acc, val) => val ? acc + 1 : acc, 0);
             })
 
@@ -136,7 +135,7 @@ export class BarchartSameTasksComponent extends ChartBase {
 
     this.requestDate = new Date().setDate(this.currentDate.getDate() - 8);
 
-    this.createDataSet();
+    this.createDataSetForYear();
   }
 
   loadDataForYear() {
@@ -145,7 +144,7 @@ export class BarchartSameTasksComponent extends ChartBase {
     const currentYearDate = new Date(this.currentDate.getFullYear(), 1, 1)
     this.requestDate = new Date(currentYearDate).getMilliseconds();
 
-    this.createDataSet();
+    this.createDataSetForYear();
   }
 
   ngOnDestroy() {

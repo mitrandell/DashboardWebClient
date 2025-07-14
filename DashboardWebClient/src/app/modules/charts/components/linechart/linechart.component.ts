@@ -22,8 +22,10 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
 
   taskData: TaskData[] = [];
   chartLabelSet: string[] = [];
-  chartDataSet: number[] = [];
+  chartDataSet: any;
   isLoading = false;
+
+  months = ["Январь", "Февраль", "Март", "Апрель", "Май", "июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
   
   currentDate = new Date();
   defaultRequestDate = new Date().setDate(this.currentDate.getDate() - 8);
@@ -40,12 +42,12 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
     super();
   }
 
-  ngOnInit(){
-    this.createDataSet();
+  ngOnInit() {
+    this.loadDataForWeek();
 
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.createDataSet();
+        this.loadDataForWeek();
       }
     })
   }
@@ -58,7 +60,7 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
         labels: this.chartLabelSet,
         datasets: [
           {
-            label: "Количество поступивших обращений за день",
+            label: "Количество поступивших обращений",
             data: this.chartDataSet,
             backgroundColor: 'blue'
           }
@@ -69,6 +71,10 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
         maintainAspectRatio: false,
         scales: {
           y: {
+            title: {
+              display: true,
+              text: 'Количество обращений'
+            },
             ticks: {
               stepSize: 1
             }
@@ -85,7 +91,51 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
     return config;
   }
 
-  createDataSet() {
+  createDataSetForYear() {
+    this.isLoading = true;
+    this.taskService.getTasks(this.requestDate).subscribe({
+      next: result => {
+        if (Array.isArray(result)) {
+          this.taskData = result;
+
+          const labels: string[] = this.taskData.map(data => data.startTaskDate);
+
+          const months = [...new Set(
+            this.taskData.map(data => {
+              const dateObj = new Date(data.startTaskDate);
+              return dateObj.getMonth() + 1;
+            })
+          )]
+
+          this.chartLabelSet = months.map(month => {
+            return this.months[month - 1]
+          });
+
+          const dataSet = months.map(month => {
+            const item = this.taskData.filter(data => {
+              const date = new Date(data.startTaskDate).getMonth() + 1;
+              return date === month
+            }).length
+
+            return item;
+          });
+
+          this.chartDataSet = dataSet;
+
+          const config = this.formationConfig();
+          this.updateChartData(this.chartCanvas.nativeElement, config);
+        }
+
+        this.isLoading = false;
+    },
+      error: err => {
+        this.errorModal.openModal(err);
+        this.isLoading = false;
+      }
+    })
+  }
+
+  createDataSetForWeak() {
     this.isLoading = true;
     this.taskService.getTasks(this.requestDate).subscribe({
       next: result => {
@@ -128,7 +178,7 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
         }
 
         this.isLoading = false;
-    },
+      },
       error: err => {
         this.errorModal.openModal(err);
         this.isLoading = false;
@@ -141,16 +191,17 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
 
     this.requestDate = new Date().setDate(this.currentDate.getDate() - 8);
 
-    this.createDataSet();
+    this.createDataSetForWeak();
   }
 
   loadDataForYear() {
     this.destroyChart();
 
-    const currentYearDate = new Date(this.currentDate.getFullYear(), 1, 1)
+    const currentYearDate = new Date(this.currentDate.getFullYear(), 1, 1);
+    
     this.requestDate = new Date(currentYearDate).getMilliseconds();
 
-    this.createDataSet();
+    this.createDataSetForYear();
   }
 
   ngOnDestroy() {

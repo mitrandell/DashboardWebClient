@@ -4,6 +4,9 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npm run build --prod
-CMD ["npm", "run", "start:prod", "--configuration=production","--", "--host", "0.0.0.0"]
 
-EXPOSE 4200
+FROM alpine AS export-stage
+WORKDIR /app
+COPY --from=build /app/src/dist /static-files
+VOLUME /static-export
+CMD ["sh", "-c", "cp -r /static-files/* /static-export"]

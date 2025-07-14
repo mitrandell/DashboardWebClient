@@ -5,7 +5,7 @@ import { TaskData } from '../../tasks/shared/models/task-data.model';
 export abstract class ChartBase {
   public chart!: Chart;
 
-  abstract createDataSet(): void;
+  abstract createDataSetForYear(): void;
 
   public updateChartData(canvas: HTMLCanvasElement, newConfig: ChartConfiguration): void {
     if (this.chart) {
@@ -17,7 +17,9 @@ export abstract class ChartBase {
   }
 
   public destroyChart(): void {
-    this.chart.destroy();
+    if (this.chart) {
+      this.chart.destroy();
+    }
   }
 
 }
