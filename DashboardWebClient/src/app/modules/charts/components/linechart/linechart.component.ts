@@ -15,8 +15,7 @@ Chart.register(BarController, CategoryScale, LinearScale, BarElement, Legend, Ti
 @Component({
   selector: 'app-linechart',
   templateUrl: './linechart.component.html',
-  styles: ``,
-  providers: [DatePipe]
+  styles: ``
 })
 export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
 
@@ -24,16 +23,13 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
   chartLabelSet: string[] = [];
   chartDataSet: any;
   isLoading = false;
-
-  months = ["Январь", "Февраль", "Март", "Апрель", "Май", "июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-  
+  months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
   currentDate = new Date();
-  defaultRequestDate = new Date().setDate(this.currentDate.getDate() - 8);
-  requestDate = this.defaultRequestDate;
-
-  isChangeTaskDataSubscribtion!: Subscription;
+  requestDate: string | null = '';
 
   datePipe = inject(DatePipe);
+
+  isChangeTaskDataSubscribtion!: Subscription;
 
   @ViewChild('chart', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
@@ -189,7 +185,8 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
   loadDataForWeek() {
     this.destroyChart();
 
-    this.requestDate = new Date().setDate(this.currentDate.getDate() - 8);
+    const getDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7, 0, 0, 0);
+    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
 
     this.createDataSetForWeak();
   }
@@ -197,9 +194,8 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
   loadDataForYear() {
     this.destroyChart();
 
-    const currentYearDate = new Date(this.currentDate.getFullYear(), 1, 1);
-    
-    this.requestDate = new Date(currentYearDate).getMilliseconds();
+    const getDate = new Date(this.currentDate.getFullYear(), 0, 1);
+    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
 
     this.createDataSetForYear();
   }

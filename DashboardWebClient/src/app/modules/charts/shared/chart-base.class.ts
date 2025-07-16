@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, inject } from '@angular/core';
 import { Chart, ChartConfiguration } from 'chart.js';
 import { TaskData } from '../../tasks/shared/models/task-data.model';
+import { DatePipe } from '@angular/common';
 
 export abstract class ChartBase {
   public chart!: Chart;
-
-  abstract createDataSetForYear(): void;
 
   public updateChartData(canvas: HTMLCanvasElement, newConfig: ChartConfiguration): void {
     if (this.chart) {
@@ -21,5 +20,4 @@ export abstract class ChartBase {
       this.chart.destroy();
     }
   }
-
 }

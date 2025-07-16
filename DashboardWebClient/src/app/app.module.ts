@@ -64,7 +64,7 @@ import { HttpInterceptorService } from './modules/authorization/services/http-in
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

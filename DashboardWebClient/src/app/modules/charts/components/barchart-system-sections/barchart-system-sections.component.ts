@@ -9,13 +9,14 @@ import { TaskService } from '../../../tasks/shared/tasks.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { ErrorModalComponent } from '../../../shared/components/error-modal/error-modal.component';
+import { DatePipe } from '@angular/common';
 
 Chart.register(BarController, CategoryScale, LinearScale, BarElement, Legend, Title, Tooltip);
 
 @Component({
   selector: 'app-barchart-system-sections',
   templateUrl: './barchart-system-sections.component.html',
-  styles: ``
+  styles: ``,
 })
 export class BarchartSystemSectionsComponent extends ChartBase implements OnInit, OnDestroy {
 
@@ -23,12 +24,11 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   chartLabelSet: any;
   chartDataSet: any;
   isLoading = false;
+  currentDate = new Date()
+  requestDate: string | null = '';
+  months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 
-  currentDate = new Date();
-  defaultRequestDate = new Date().setDate(this.currentDate.getDate() - 8);
-  requestDate = this.defaultRequestDate;
-
-  months = ["Январь", "Февраль", "Март", "Апрель", "Май", "июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+  datePipe = inject(DatePipe);
 
   isChangeTaskDataSubscribtion!: Subscription;
 
@@ -48,7 +48,6 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
       }
     })
   }
-
 
   formationConfig() {
     const config: ChartConfiguration<'bar'> = {
@@ -196,7 +195,8 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   loadDataForWeek() {
     this.destroyChart();
 
-    this.requestDate = new Date().setDate(this.currentDate.getDate() - 8);
+    const getDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7, 0, 0, 0);
+    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
 
     this.createDataSetForWeak();
   }
@@ -204,8 +204,8 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   loadDataForYear() {
     this.destroyChart();
 
-    const currentYearDate = new Date(this.currentDate.getFullYear(), 1, 1)
-    this.requestDate = new Date(currentYearDate).getMilliseconds();
+    const getDate = new Date(this.currentDate.getFullYear(), 0, 1);
+    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
 
     this.createDataSetForYear();
   }

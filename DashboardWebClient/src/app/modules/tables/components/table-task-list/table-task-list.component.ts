@@ -4,6 +4,7 @@ import { TaskData } from '../../../tasks/shared/models/task-data.model';
 import { Subscription } from 'rxjs';
 import { TaskService } from '../../../tasks/shared/tasks.service';
 import { ErrorModalComponent } from '../../../shared/components/error-modal/error-modal.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-table-task-list',
@@ -17,10 +18,10 @@ export class TableTaskListComponent implements OnInit, OnDestroy {
   taskDates: any[] = [];
   avgTimeToAllSystemSections: string = '';
   isLoading: boolean = false;
-
   currentDate = new Date();
-  defaultRequestDate = new Date().setDate(this.currentDate.getDate() - 8);
-  requestDate = this.defaultRequestDate;
+  requestDate: string | null = '';
+
+  datePipe = inject(DatePipe);
 
   isChangeTaskDataSubscribtion!: Subscription;
 
@@ -28,10 +29,10 @@ export class TableTaskListComponent implements OnInit, OnDestroy {
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    this.createDataSet();
+    this.loadDataForWeek();
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.createDataSet();
+        this.loadDataForWeek();
       }
     })
   }
@@ -57,14 +58,15 @@ export class TableTaskListComponent implements OnInit, OnDestroy {
   }
 
   loadDataForWeek() {
-    this.requestDate = new Date().setDate(this.currentDate.getDate() - 8);
+    const getDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7, 0, 0, 0);
+    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
 
     this.createDataSet();
   }
 
   loadDataForYear() {
-    const currentYearDate = new Date(this.currentDate.getFullYear(), 1, 1)
-    this.requestDate = new Date(currentYearDate).getMilliseconds();
+    const getDate = new Date(this.currentDate.getFullYear(), 0, 1);
+    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
 
     this.createDataSet();
   }

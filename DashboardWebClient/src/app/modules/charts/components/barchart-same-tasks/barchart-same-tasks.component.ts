@@ -15,8 +15,7 @@ Chart.register(BarController, CategoryScale, LinearScale, BarElement, Legend, Ti
 @Component({
   selector: 'app-barchart-same-tasks',
   templateUrl: './barchart-same-tasks.component.html',
-  styles: ``,
-  providers: [DatePipe]
+  styles: ``
 })
 export class BarchartSameTasksComponent extends ChartBase {
 
@@ -25,14 +24,11 @@ export class BarchartSameTasksComponent extends ChartBase {
   chartDataSet: any;
   taskDates: any[] = [];
   isLoading = false;
-
+  datePipe = inject(DatePipe);
   currentDate = new Date();
-  defaultRequestDate = new Date().setDate(this.currentDate.getDate() - 8);
-  requestDate = this.defaultRequestDate;
+  requestDate: string | null  = '';
 
   isChangeTaskDataSubscribtion!: Subscription;
-
-  datePipe = inject(DatePipe);
 
   @ViewChild('chart', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
@@ -41,11 +37,11 @@ export class BarchartSameTasksComponent extends ChartBase {
   }
 
   ngOnInit() {
-    this.createDataSetForYear();
+    this.loadDataForWeek();
 
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.createDataSetForYear();
+        this.loadDataForWeek();
       }
     })
   }
@@ -83,7 +79,7 @@ export class BarchartSameTasksComponent extends ChartBase {
     return config;
   }
 
-  createDataSetForYear() {
+  createDataSet() {
     this.isLoading = true;
     this.taskService.getTasks(this.requestDate).subscribe({
       next: result => {
@@ -130,21 +126,24 @@ export class BarchartSameTasksComponent extends ChartBase {
     })
   }
 
+
+
   loadDataForWeek() {
     this.destroyChart();
 
-    this.requestDate = new Date().setDate(this.currentDate.getDate() - 8);
+    const getDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7, 0, 0, 0);
+    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
 
-    this.createDataSetForYear();
+    this.createDataSet();
   }
 
   loadDataForYear() {
     this.destroyChart();
 
-    const currentYearDate = new Date(this.currentDate.getFullYear(), 1, 1)
-    this.requestDate = new Date(currentYearDate).getMilliseconds();
+    const getDate = new Date(this.currentDate.getFullYear(), 0, 1);
+    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
 
-    this.createDataSetForYear();
+    this.createDataSet();
   }
 
   ngOnDestroy() {
