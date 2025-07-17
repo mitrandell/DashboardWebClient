@@ -18,6 +18,10 @@ export class TableAvgTimeSystemSectionsComponent implements OnInit, OnDestroy {
   taskData: TaskData[] = [];
   tableLabelSet: any;
   tableDataSet: any;
+  allSectionData = {
+    count: 0,
+    avgTime: ''
+  }
   avgTimeToAllSystemSections: string = '';
   isLoading: boolean = false;
   currentDate = new Date();
@@ -45,9 +49,7 @@ export class TableAvgTimeSystemSectionsComponent implements OnInit, OnDestroy {
     this.taskService.getTasks(this.requestDate).subscribe({
       next: result => {
         if (Array.isArray(result)) {
-
           this.taskData = result;
-
           const taskDates: string[] = this.taskData.map(data => data.startTaskDate);
 
           var uniqueLabels = taskDates.filter((value, index, array) => {
@@ -57,7 +59,6 @@ export class TableAvgTimeSystemSectionsComponent implements OnInit, OnDestroy {
           this.tableLabelSet = uniqueLabels;
 
           const systems = this.taskData.filter(item => taskDates.includes(item.startTaskDate)).map(system => system.systemSectionName);
-
           var uniqueSystems = systems.filter((value, index, array) => {
             return array.indexOf(value) === index;
           })
@@ -66,14 +67,18 @@ export class TableAvgTimeSystemSectionsComponent implements OnInit, OnDestroy {
             const systemData = this.taskData.filter(d => taskDates.includes(d.startTaskDate) && d.executedTime !== null
               && d.systemSectionName === system).map(x => x.executedTime);
 
+            const countTasks = this.taskData.filter(d => taskDates.includes(d.startTaskDate) && d.systemSectionName === system).length;
+
             return {
               label: system,
-              data: systemData.length > 0 ? calculateAverageTime(systemData) : '',
+              count: countTasks,
+              time: systemData.length > 0 ? calculateAverageTime(systemData) : '',
               parsing: false
             }
           })
 
-          this.avgTimeToAllSystemSections = calculateAverageTime(dataSets.filter(x => x.data != '').map(item => item.data));
+          this.allSectionData.avgTime = calculateAverageTime(dataSets.filter(x => x.time != '').map(item => item.time));
+          this.allSectionData.count = dataSets.map(x => x.count).reduce((acc, current) => acc + current);
           this.tableDataSet = dataSets;
         }
 

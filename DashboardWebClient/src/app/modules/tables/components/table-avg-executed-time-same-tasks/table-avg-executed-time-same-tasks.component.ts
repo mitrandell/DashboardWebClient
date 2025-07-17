@@ -21,6 +21,10 @@ export class TableAvgExecutedTimeSameTasksComponent implements OnInit, OnDestroy
   avgTimeToAllSystemSections: string = '';
   currentDate = new Date();
   requestDate: string | null = '';
+  allSectionData = {
+    count: 0,
+    avgTime: ''
+  }
 
   isChangeTaskDataSubscribtion!: Subscription;
 
@@ -82,6 +86,8 @@ export class TableAvgExecutedTimeSameTasksComponent implements OnInit, OnDestroy
             }
           })
 
+          this.allSectionData.avgTime = calculateAverageTime(dataSets.map(x => x.avgExecutedTime).filter(time => time !== ''));
+          this.allSectionData.count = dataSets.map(x => x.count).reduce((acc, current) => acc + current);
           this.tableDataSet = dataSets;
         }
 
