@@ -1,0 +1,35 @@
+
+<div class="col-12 border border-2 rounded-3 shadow p-2 mt-2">
+  <button class="btn btn-primary" (click)="creatingNote(true)">Добавить заметку</button>
+</div>
+
+<div class="note-box" *ngFor="let note of notes"
+     cdkDrag
+     [cdkDragFreeDragPosition]="{x: note.positionX, y: note.positionY}"
+     (cdkDragEnded)="changeNotePosition($event, note)">
+  <div class="note-handle" cdkDragHandle>
+    <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+      <path d="M0 0h24v24H0z" fill="none"></path>
+    </svg>
+  </div>
+  <textarea type="text" [(ngModel)]="note.content"></textarea>
+  <button class="btn btn-sm btn-outline-success successBtn" (click)="editNote(note)">сохранить</button>
+  <button class="btn btn-sm btn-outline-danger cancelBtn" (click)="deleteNote(note.id)">удалить</button>
+</div>
+
+<div *ngIf="isCreating" class="note-box" cdkDrag
+    [cdkDragFreeDragPosition]="{x: positionX, y: positionY}"
+    (cdkDragEnded)="getNewPosition($event)">
+  <div class="note-handle" cdkDragHandle>
+    <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+      <path d="M0 0h24v24H0z" fill="none"></path>
+    </svg>
+  </div>
+  <textarea type="text" [(ngModel)]="content"></textarea>
+  <button class="btn btn-sm btn-outline-success successBtn" (click)="createNote()">сохранить</button>
+  <button class="btn btn-sm btn-outline-danger cancelBtn" (click)="creatingNote(false)">отмена</button>
+</div>
+
+<app-error-modal #errorModal></app-error-modal>

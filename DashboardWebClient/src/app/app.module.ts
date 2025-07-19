@@ -23,13 +23,14 @@ import { ListDeveloperTaskComponent } from './modules/tasks/components/list-deve
 import { EditCriticalTaskComponent } from './modules/tasks/components/edit-critical-task/edit-critical-task.component';
 import { EditDeveloperTaskComponent } from './modules/tasks/components/edit-developer-task/edit-developer-task.component';
 import { SidebarComponent } from './modules/sidebar/components/sidebar/sidebar.component';
-import { ListNotesComponent } from './modules/notes/components/list-notes/list-notes.component';
 import { DashboardComponent } from './modules/dashboard/components/dashboard/dashboard.component';
 import { ListBussinessDaysComponent } from './modules/bussiness-days/components/list-bussiness-days/list-bussiness-days.component';
 import { EditBussinessDayComponent } from './modules/bussiness-days/components/edit-bussiness-day/edit-bussiness-day.component';
 import { ErrorModalComponent } from './modules/shared/components/error-modal/error-modal.component';
 import { UserLoginComponent } from './modules/authorization/components/user-login/user-login.component';
 import { HttpInterceptorService } from './modules/authorization/services/http-interceptor.service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NotesBoardComponent } from './modules/notes/components/notes-board/notes-board.component';
 
 @NgModule({
   declarations: [
@@ -49,12 +50,12 @@ import { HttpInterceptorService } from './modules/authorization/services/http-in
     EditCriticalTaskComponent,
     EditDeveloperTaskComponent,
     SidebarComponent,
-    ListNotesComponent,
     DashboardComponent,
     ListBussinessDaysComponent,
     EditBussinessDayComponent,
     ErrorModalComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    NotesBoardComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +63,8 @@ import { HttpInterceptorService } from './modules/authorization/services/http-in
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragDropModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }, DatePipe],
   bootstrap: [AppComponent]
