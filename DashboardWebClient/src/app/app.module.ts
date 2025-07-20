@@ -31,6 +31,7 @@ import { UserLoginComponent } from './modules/authorization/components/user-logi
 import { HttpInterceptorService } from './modules/authorization/services/http-interceptor.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotesBoardComponent } from './modules/notes/components/notes-board/notes-board.component';
+import { NgxEditorModule } from 'ngx-editor';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { NotesBoardComponent } from './modules/notes/components/notes-board/note
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    DragDropModule
+    DragDropModule,
+    NgxEditorModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }, DatePipe],
   bootstrap: [AppComponent]

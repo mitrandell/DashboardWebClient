@@ -1,25 +1,38 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { NotesBoardService } from '../../shared/notes-board.service';
 import { Note } from '../../shared/interfaces/note.interface';
 import { isObject } from 'chart.js/dist/helpers/helpers.core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ErrorModalComponent } from '../../../shared/components/error-modal/error-modal.component';
+import { Editor, Toolbar, schema } from 'ngx-editor';
 
 @Component({
   selector: 'app-notes-board',
   templateUrl: './notes-board.component.html',
   styleUrl: './notes-board.component.css'
 })
-export class NotesBoardComponent {
+export class NotesBoardComponent implements OnInit, OnDestroy {
   isCreating: boolean = false;
 
   positionX: number = 0;
   positionY: number = 0;
+
+  editor!: Editor;
  
   content: string = '';
   notes: Note[] = [];
   changeNoteDataSubscribtion!: Subscription;
+
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
 
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
 
@@ -50,6 +63,9 @@ export class NotesBoardComponent {
       next: result => {
         if (Array.isArray(result)) {
           this.notes = result;
+          this.notes.forEach(x => {
+            x.editor = new Editor();
+          })
         }
       },
       error: err => {
@@ -65,6 +81,7 @@ export class NotesBoardComponent {
   }
 
   editNote(note: Note) {
+    note.editor = null;
     this.notesBoardService.putNotes(note).subscribe({
       next: result => {
         this.notesBoardService.changeNoteData$.next(true);
@@ -91,9 +108,12 @@ export class NotesBoardComponent {
         this.errorModal.openModal(err);
       }
     })
+
+    this.creatingNote(false);
   }
 
   setDafultNewNoteValues() {
+    this.editor = new Editor();
     this.positionX = 0;
     this.positionY = 0;
     this.content = '';
@@ -108,6 +128,20 @@ export class NotesBoardComponent {
         this.errorModal.openModal(err);
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.notes.forEach(note => {
+      if (note.editor) {
+        note.editor.destroy();
+      }
+    });
+
+    if (this.editor) {
+      this.editor.destroy();
+    }
+
+    this.changeNoteDataSubscribtion.unsubscribe();
   }
 
 }

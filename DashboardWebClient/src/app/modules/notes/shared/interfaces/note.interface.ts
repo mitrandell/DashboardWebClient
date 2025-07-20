@@ -3,4 +3,5 @@ export interface Note {
   content: string;
   positionX: number;
   positionY: number;
+  editor?: any;
 }

@@ -1,6 +1,6 @@
 .note-box {
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 350px;
   padding: 3px;
   box-sizing: border-box;
   border: solid 1px #ccc;
@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+/*  text-align: center;*/
   background: #fff;
   border-radius: 4px;
   position: absolute;
@@ -42,13 +42,34 @@ textarea{
 
 .cancelBtn{
   position: relative;
-  left: 3rem;
-  top: 8rem;
+  left: 8rem;
+  top: 9.5rem;
 }
 
 .successBtn {
   position: relative;
-  left: 3rem;
+  left: 8rem;
   margin-right: 1rem;
-  top: 8rem;
+  top: 9.5rem;
+}
+
+.editor-container {
+  position: absolute;
+  top: 30px;
+  width: 350px;
+  max-width: 400px;
+  height: 200px;
+  max-height: 200px;
+}
+
+::ng-deep .NgxEditor {
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+
+::ng-deep .editor-content .NgxEditor {
+  flex: 1;
+  min-height: 0; /* Важно для правильной работы flex */
+  overflow-y: auto;
 }
