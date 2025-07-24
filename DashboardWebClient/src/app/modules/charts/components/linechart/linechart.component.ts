@@ -9,6 +9,7 @@ import { TaskService } from '../../../tasks/shared/tasks.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { ErrorModalComponent } from '../../../shared/components/error-modal/error-modal.component';
+import { filterTypesConst } from '../../../utils/filter-constants';
 
 Chart.register(BarController, CategoryScale, LinearScale, BarElement, Legend, Title, Tooltip);
 
@@ -25,7 +26,9 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
   isLoading = false;
   months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
   currentDate = new Date();
-  requestDate: string | null = '';
+
+  @Input() requestDate: string | null = '';
+  @Input() filterType: string = ''
 
   datePipe = inject(DatePipe);
 
@@ -39,17 +42,17 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadDataForWeek();
+    this.loadData();
 
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.loadDataForWeek();
+        this.loadData();
       }
     })
   }
 
   formationConfig() {
-    const config: ChartConfiguration<'line'> =  {
+    const config: ChartConfiguration<'line'> = {
       type: 'line',
 
       data: {
@@ -72,7 +75,7 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
               text: 'Количество обращений'
             },
             ticks: {
-              stepSize: 1
+              stepSize: 5,
             }
           }
         },
@@ -182,22 +185,14 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
     })
   }
 
-  loadDataForWeek() {
+  loadData() {
     this.destroyChart();
-
-    const getDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7, 0, 0, 0);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
-
-    this.createDataSetForWeak();
-  }
-
-  loadDataForYear() {
-    this.destroyChart();
-
-    const getDate = new Date(this.currentDate.getFullYear(), 0, 1);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
-
-    this.createDataSetForYear();
+    if (this.filterType === filterTypesConst.Weak) {
+      this.createDataSetForWeak();
+    }
+    if (this.filterType === filterTypesConst.Year) {
+      this.createDataSetForYear();
+    }
   }
 
   ngOnDestroy() {

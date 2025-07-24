@@ -1,18 +1,20 @@
-<app-create-tasks></app-create-tasks>
-<div class="row chartContainer mt-4">
-  <div class="col-12 col-md-6">
-    <app-linechart></app-linechart>
-  </div>
-  <div class="col-12 col-md-6">
-    <app-barchart-same-tasks></app-barchart-same-tasks>
+<div class="col-12 border border-2 rounded-3 shadow p-2 mt-2">
+  <app-create-tasks></app-create-tasks>
+</div>
+<div class="border border-2 rounded-3 shadow p-2 mt-2">
+  <div class="col-2 btn-group">
+    <button class="btn btn-secondary" [ngClass]="{ 'weakFilter': isWeakFilterEntered }" (click)="onFilterClick(weakFilterType)">За неделю</button>
+    <button class="btn btn-secondary border-start" [ngClass]="{ 'yearFilter': isYearFilterEntered }" (click)="onFilterClick(yearFilterType)">За год</button>
   </div>
 </div>
-<app-barchart-system-sections></app-barchart-system-sections>
+<app-linechart [requestDate]="requestDate" [filterType]="activeFilter"></app-linechart>
+<app-barchart-same-tasks [requestDate]="requestDate"></app-barchart-same-tasks>
+<app-barchart-system-sections [requestDate]="requestDate" [filterType]="activeFilter"></app-barchart-system-sections>
 
 @defer (on viewport){
 <!--<div class="col-12 d-inline-flex mt-2">-->
-    <app-table-avg-time-system-sections></app-table-avg-time-system-sections>
-    <app-table-avg-executed-time-same-tasks></app-table-avg-executed-time-same-tasks>
+    <app-table-avg-time-system-sections [requestDate]="requestDate"></app-table-avg-time-system-sections>
+    <app-table-avg-executed-time-same-tasks [requestDate]="requestDate"></app-table-avg-executed-time-same-tasks>
 <!--</div>-->
 }@placeholder {
 <div>Загрузка графика...</div>
@@ -21,7 +23,7 @@
 @defer (on viewport){
 <app-list-developer-task></app-list-developer-task>
 <app-list-critical-task></app-list-critical-task>
-<app-table-task-list></app-table-task-list>
+<app-table-task-list [requestDate]="requestDate"></app-table-task-list>
 } @placeholder {
 <div>Загрузка графика...</div>
 }

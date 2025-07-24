@@ -1,4 +1,4 @@
-<div class="table-title d-inline-flex col-12 border border-secondary-subtle border-1 rounded-3 p-3 mt-2 text-center">
+<div class="table-title d-inline-flex col-12 border border-secondary-subtle border-1 rounded-3 mt-2 text-center">
   <div class="col-2 me-2">
     <select class="form-select" [(ngModel)]="selectedMonth" (ngModelChange)="loadData()" style="cursor: pointer">
       <option *ngFor="let month of months" [ngValue]="month">{{ month }}</option>

@@ -9,7 +9,7 @@ import { ErrorModalComponent } from '../../../shared/components/error-modal/erro
 @Component({
   selector: 'app-table-avg-executed-time-same-tasks',
   templateUrl: './table-avg-executed-time-same-tasks.component.html',
-  styles: ``,
+  styleUrl: './table-avg-executed-time-same-tasks.component.css',
   providers: [DatePipe]
 })
 export class TableAvgExecutedTimeSameTasksComponent implements OnInit, OnDestroy {
@@ -19,8 +19,6 @@ export class TableAvgExecutedTimeSameTasksComponent implements OnInit, OnDestroy
   taskDates: any[] = [];
   isLoading: boolean = false;
   avgTimeToAllSystemSections: string = '';
-  currentDate = new Date();
-  requestDate: string | null = '';
   allSectionData = {
     count: 0,
     avgTime: ''
@@ -30,15 +28,16 @@ export class TableAvgExecutedTimeSameTasksComponent implements OnInit, OnDestroy
 
   datePipe = inject(DatePipe);
 
+  @Input() requestDate: string | null = '';
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    this.loadDataForWeek();
+    this.createDataSet();
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.loadDataForWeek();
+        this.createDataSet();
       }
     })
   }
@@ -47,7 +46,7 @@ export class TableAvgExecutedTimeSameTasksComponent implements OnInit, OnDestroy
     this.isLoading = true;
     this.taskService.getTasks(this.requestDate).subscribe({
       next: result => {
-        if (Array.isArray(result)) {
+        if (Array.isArray(result) && result.length > 0) {
           this.taskData = result;
 
           this.taskDates = this.taskData.map(data => data.startTaskDate);
@@ -81,7 +80,7 @@ export class TableAvgExecutedTimeSameTasksComponent implements OnInit, OnDestroy
             return {
               system: system?.systemSectionName,
               title: title,
-              count: item.reduce((acc, val) => val ? acc + 1 : acc, 0),
+              count: item.length > 0 ? item.reduce((acc, val) => val ? acc + 1 : acc, 0) : 0,
               avgExecutedTime: avgExecutedTime.length > 0 ? calculateAverageTime(avgExecutedTime) : ''
             }
           })
@@ -98,20 +97,6 @@ export class TableAvgExecutedTimeSameTasksComponent implements OnInit, OnDestroy
         this.errorModal.openModal(err);
       }
     })
-  }
-
-  loadDataForWeek() {
-    const getDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7, 0, 0, 0);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
-
-    this.createDataSet();
-  }
-
-  loadDataForYear() {
-    const getDate = new Date(this.currentDate.getFullYear(), 0, 1);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
-
-    this.createDataSet();
   }
 
   ngOnDestroy() {

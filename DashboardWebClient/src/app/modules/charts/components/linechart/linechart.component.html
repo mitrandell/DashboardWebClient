@@ -1,9 +1,8 @@
-<div class="border border-secondary-subtle rounded-2 shadow-lg p-4 mt-2">
-  <div class="chart-title d-inline-flex col-12">
-    <h5 class="col-8 text-center mt-1">Количество поступивших обращений</h5>
-    <div class="col-5">
-      <button type="button" class="btn btn-outline-secondary me-2" (click)="loadDataForYear()">За год</button>
-      <button type="button" class="btn btn-outline-secondary" (click)="loadDataForWeek()">За неделю</button>
+<div class="border border-secondary-subtle rounded-2 shadow-lg p-4 mt-3">
+  <div class="col-12 d-inline-flex chart-title">
+    <h5 class="mx-auto mt-1">Количество поступивших обращений</h5>
+    <div>
+      <button type="button" class="btn btn-primary" (click)="loadData()"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
   </div>
   <div class="chart-container">

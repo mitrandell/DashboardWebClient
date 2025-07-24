@@ -10,6 +10,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { ErrorModalComponent } from '../../../shared/components/error-modal/error-modal.component';
 import { DatePipe } from '@angular/common';
+import { filterTypesConst } from '../../../utils/filter-constants';
 
 Chart.register(BarController, CategoryScale, LinearScale, BarElement, Legend, Title, Tooltip);
 
@@ -24,14 +25,14 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   chartLabelSet: any;
   chartDataSet: any;
   isLoading = false;
-  currentDate = new Date()
-  requestDate: string | null = '';
   months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 
   datePipe = inject(DatePipe);
 
   isChangeTaskDataSubscribtion!: Subscription;
 
+  @Input() requestDate: string | null = '';
+  @Input() filterType: string = ''
   @ViewChild('chart', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
 
@@ -40,11 +41,11 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   }
 
   ngOnInit() {
-    this.loadDataForWeek();
+    this.loadData();
 
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.loadDataForWeek();
+        this.loadData();
       }
     })
   }
@@ -192,24 +193,15 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   }
 
 
-  loadDataForWeek() {
+  loadData() {
     this.destroyChart();
-
-    const getDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7, 0, 0, 0);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
-
-    this.createDataSetForWeak();
+    if (this.filterType === filterTypesConst.Weak) {
+      this.createDataSetForWeak();
+    }
+    if (this.filterType === filterTypesConst.Year) {
+      this.createDataSetForYear();
+    }
   }
-
-  loadDataForYear() {
-    this.destroyChart();
-
-    const getDate = new Date(this.currentDate.getFullYear(), 0, 1);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
-
-    this.createDataSetForYear();
-  }
-
 
   ngOnDestroy() {
     this.isChangeTaskDataSubscribtion.unsubscribe();
