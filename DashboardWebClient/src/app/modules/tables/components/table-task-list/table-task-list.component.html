@@ -1,8 +1,9 @@
 <div class="mt-5 mb-5 shadow-lg">
-  <div class="table-title d-inline-flex col-12 border border-secondary-subtle border-bottom-0 border-1 p-3 mb-0 rounded-top text-center">
-    <h5 class="mx-auto mt-1">Реестр обращений</h5>
-    <button type="button" class="btn btn-outline-secondary me-2" (click)="loadDataForYear()">За год</button>
-    <button type="button" class="btn btn-outline-secondary" (click)="loadDataForWeek()">За неделю</button>
+  <div class="table-title d-inline-flex col-12 border border-secondary-subtle border-bottom-0 border-1 p-3 mb-0 rounded-top">
+    <h5 class="tableText">Реестр обращений</h5>
+    <div class="ms-auto">
+      <button type="button" class="btn btn-primary" (click)="createDataSet()"><i class="bi bi-arrow-clockwise"></i></button>
+    </div>
   </div>
   <div class="table-responsive" style="max-height: 600px">
     <table class="table table-light table-bordered table-hover mb-0" style="max-height: 600px">

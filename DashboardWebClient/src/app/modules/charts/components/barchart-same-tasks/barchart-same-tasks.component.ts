@@ -24,12 +24,11 @@ export class BarchartSameTasksComponent extends ChartBase {
   chartDataSet: any;
   taskDates: any[] = [];
   isLoading = false;
-  datePipe = inject(DatePipe);
-  currentDate = new Date();
-  requestDate: string | null  = '';
 
+  datePipe = inject(DatePipe);
   isChangeTaskDataSubscribtion!: Subscription;
 
+  @Input() requestDate: string | null = '';
   @ViewChild('chart', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
   constructor(private taskService: TaskService) {
@@ -37,11 +36,11 @@ export class BarchartSameTasksComponent extends ChartBase {
   }
 
   ngOnInit() {
-    this.loadDataForWeek();
+    this.createDataSet();
 
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.loadDataForWeek();
+        this.createDataSet();
       }
     })
   }
@@ -65,14 +64,14 @@ export class BarchartSameTasksComponent extends ChartBase {
             stacked: false,
             beginAtZero: true,
             title: {
-              display: true,
+              display: false,
               text: 'Количество обращений'
             },
             ticks: {
-              stepSize: 1
+              stepSize: 5
             }
           }
-        }
+        },
       }
     };
 
@@ -80,6 +79,7 @@ export class BarchartSameTasksComponent extends ChartBase {
   }
 
   createDataSet() {
+    this.destroyChart();
     this.isLoading = true;
     this.taskService.getTasks(this.requestDate).subscribe({
       next: result => {
@@ -124,26 +124,6 @@ export class BarchartSameTasksComponent extends ChartBase {
         this.errorModal.openModal(err);
       }
     })
-  }
-
-
-
-  loadDataForWeek() {
-    this.destroyChart();
-
-    const getDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7, 0, 0, 0);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
-
-    this.createDataSet();
-  }
-
-  loadDataForYear() {
-    this.destroyChart();
-
-    const getDate = new Date(this.currentDate.getFullYear(), 0, 1);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
-
-    this.createDataSet();
   }
 
   ngOnDestroy() {

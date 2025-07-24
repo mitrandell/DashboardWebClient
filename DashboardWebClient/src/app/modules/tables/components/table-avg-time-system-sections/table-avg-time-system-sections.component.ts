@@ -24,22 +24,21 @@ export class TableAvgTimeSystemSectionsComponent implements OnInit, OnDestroy {
   }
   avgTimeToAllSystemSections: string = '';
   isLoading: boolean = false;
-  currentDate = new Date();
-  requestDate: string | null = '';
 
   isChangeTaskDataSubscribtion!: Subscription;
 
   datePipe = inject(DatePipe);
 
+  @Input() requestDate: string | null = '';
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    this.loadDataForWeek();
+    this.createDataSet();
     this.isChangeTaskDataSubscribtion = this.taskService.changeTaskData$.subscribe(result => {
       if (result) {
-        this.loadDataForWeek();
+        this.createDataSet();
       }
     })
   }
@@ -48,7 +47,7 @@ export class TableAvgTimeSystemSectionsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.taskService.getTasks(this.requestDate).subscribe({
       next: result => {
-        if (Array.isArray(result)) {
+        if (Array.isArray(result) && result.length > 0) {
           this.taskData = result;
           const taskDates: string[] = this.taskData.map(data => data.startTaskDate);
 
@@ -89,20 +88,6 @@ export class TableAvgTimeSystemSectionsComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     })
-  }
-
-  loadDataForWeek() {
-    const getDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7, 0, 0, 0);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
-
-    this.createDataSet();
-  }
-
-  loadDataForYear() {
-    const getDate = new Date(this.currentDate.getFullYear(), 0, 1);
-    this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss")
-
-    this.createDataSet();
   }
 
   ngOnDestroy() {
