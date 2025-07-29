@@ -26,6 +26,7 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   chartDataSet: any;
   isLoading = false;
   months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+  stepSize: number = 1;
 
   datePipe = inject(DatePipe);
 
@@ -68,11 +69,11 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
             stacked: false,
             beginAtZero: true,
             title: {
-              display: true,
+              display: false,
               text: 'Количество обращений'
             },
             ticks: {
-              stepSize: 1
+              stepSize: this.stepSize
             }
           }
         }
@@ -197,9 +198,11 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
     this.destroyChart();
     if (this.filterType === filterTypesConst.Weak) {
       this.createDataSetForWeak();
+      this.stepSize = 1;
     }
     if (this.filterType === filterTypesConst.Year) {
       this.createDataSetForYear();
+      this.stepSize = 40;
     }
   }
 

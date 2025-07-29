@@ -2,9 +2,10 @@
 <div class="mt-5 shadow">
   <div class="d-inline-flex table-title col-12 border border-secondary-subtle border-bottom-0 border-1 p-3 mb-0 rounded-top text-center">
     <app-create-developer-task></app-create-developer-task>
-    <h5 class="mx-auto mt-1">Открытые задачи в itsm на разработку</h5>
+    <h3 class="mx-auto mt-1">Открытые задачи в itsm на разработку</h3>
   </div>
-  <div class="table-responsive text-center" style="max-height: 600px">
+  <div class="table-responsive text-center" style="max-height: 600px; position: relative">
+    <app-loader [loading]="isLoading"></app-loader>
     <table class="table table-light table-bordered table-hover mb-0" style="max-height: 600px">
       <thead>
         <tr>
@@ -36,22 +37,22 @@
           <td>
             {{ data.taskNumber }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.itsmStatus }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.redmineSatus }}
           </td>
-          <td class="text-center">
+          <td class="developer-task-description">
             {{ data.description }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.startDate | date : "dd/MM/yy HH:mm"}}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.endDate | date : "dd/MM/yy HH:mm"}}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.actionStatus }}
           </td>
         </tr>
@@ -67,5 +68,4 @@
 </div>
 
 <app-edit-developer-task #editModal></app-edit-developer-task>
-<app-loader [loading]="isLoading"></app-loader>
 <app-error-modal #errorModal></app-error-modal>

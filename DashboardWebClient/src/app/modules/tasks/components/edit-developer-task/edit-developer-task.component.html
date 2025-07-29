@@ -3,7 +3,8 @@
     <h3 class="modal-title" id="modal-create-title" style="text-align:center">Редактирование</h3>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" style="position: relative">
+    <app-loader [loading]="isLoading"></app-loader>
     <form [formGroup]="form" (ngSubmit)="edit()">
       <div class="d-flex">
         <div class="form-group me-1 col-2">
@@ -68,7 +69,6 @@
       </div>
     </form>
   </div>
-  <app-loader [loading]="isLoading"></app-loader>
 </ng-template>
 
 <app-error-modal #errorModal></app-error-modal>

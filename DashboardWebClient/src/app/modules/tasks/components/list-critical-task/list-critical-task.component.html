@@ -1,9 +1,10 @@
 <div class="mt-5 shadow">
   <div class="d-inline-flex table-title col-12 border border-secondary-subtle border-bottom-0 border-1 p-3 mb-0 rounded-top text-center">
     <app-create-critical-task></app-create-critical-task>
-    <h5 class="mx-auto mt-1"><i class="bi bi-exclamation-triangle me-2" style="color:red"></i>Критичные и блокирующие проблемы</h5>
+    <h3 class="mx-auto mt-1"><i class="bi bi-exclamation-triangle me-2" style="color:red"></i>Критичные и блокирующие проблемы</h3>
   </div>
-  <div class="table-responsive text-center" style="max-height: 600px">
+  <div class="table-responsive text-center" style="max-height: 600px; position: relative">
+    <app-loader [loading]="isLoading"></app-loader>
     <table class="table table-light table-bordered table-hover mb-0" style="max-height: 600px">
       <thead>
         <tr>
@@ -14,7 +15,7 @@
             Статус в itsm
           </th>
           <th>
-            Статув в redmine
+            Статуc в redmine
           </th>
           <th>
             Описание
@@ -35,13 +36,13 @@
           <td>
             {{ data.taskNumber }}
           </td>
-          <td class="text-center test">
+          <td class="text-center">
             {{ data.itsmStatus }}
           </td>
           <td class="text-center">
             {{ data.redmineSatus }}
           </td>
-          <td class="text-center">
+          <td class="critical-task-description">
             {{ data.description }}
           </td>
           <td class="text-center">
@@ -66,5 +67,4 @@
 </div>
 
 <app-edit-critical-task #editModal></app-edit-critical-task>
-<app-loader [loading]="isLoading"></app-loader>
 <app-error-modal #errorModal></app-error-modal>

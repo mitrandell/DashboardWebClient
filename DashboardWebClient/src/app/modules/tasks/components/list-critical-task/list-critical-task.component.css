@@ -1,5 +1,17 @@
 td {
-    color: red !important;
+  color: red;
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.critical-task-description {
+  word-wrap: break-word;
+  max-width: 35rem;
 }
 
 .context-menu {

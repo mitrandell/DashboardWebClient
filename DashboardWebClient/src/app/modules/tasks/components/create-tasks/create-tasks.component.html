@@ -1,4 +1,5 @@
-<form class="d-inline-flex text-center">
+<form class="d-inline-flex text-center" style="position: relative">
+  <app-loader [loading]="isLoading"></app-loader>
   <div class="form-group col-8 pe-2">
     <input type="file"
            class="form-control"
@@ -8,7 +9,6 @@
   <div class="col-4">
     <button type="button" class="w-100 btn btn-primary text-light me-2" (click)="saveData()">Добавить</button>
   </div>
-  <app-loader [loading]="isLoading"></app-loader>
 </form>
 
 <app-error-modal #errorModal></app-error-modal>

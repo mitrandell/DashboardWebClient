@@ -86,7 +86,7 @@ export class TableAvgExecutedTimeSameTasksComponent implements OnInit, OnDestroy
           })
 
           this.allSectionData.avgTime = calculateAverageTime(dataSets.map(x => x.avgExecutedTime).filter(time => time !== ''));
-          this.allSectionData.count = dataSets.map(x => x.count).reduce((acc, current) => acc + current);
+          this.allSectionData.count = dataSets.map(x => x.count).length > 0 ?  dataSets.map(x => x.count).reduce((acc, current) => acc + current) : 0;
           this.tableDataSet = dataSets;
         }
 

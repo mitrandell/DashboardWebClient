@@ -1,13 +1,14 @@
 <div class="mt-5 mb-5 shadow-lg">
   <div class="table-title d-inline-flex col-12 border border-secondary-subtle border-bottom-0 border-1 p-3 mb-0 rounded-top">
-    <h5 class="tableText">Реестр обращений</h5>
-    <div class="ms-auto">
+    <h3 class="mx-auto">Реестр обращений</h3>
+    <div>
       <button type="button" class="btn btn-primary" (click)="createDataSet()"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
   </div>
-  <div class="table-responsive" style="max-height: 600px">
+  <div class="table-responsive text-center" style="max-height: 600px; position: relative">
+    <app-loader [loading]="isLoading"></app-loader>
     <table class="table table-light table-bordered table-hover mb-0" style="max-height: 600px">
-      <thead class="text-center">
+      <thead class="text-center" style="align-content: center; vertical-align: middle;">
         <tr>
           <th>
             Номер
@@ -32,27 +33,27 @@
           </th>
         </tr>
       </thead>
-      <tbody *ngFor="let data of tableDataSet; let i=index">
+      <tbody *ngFor="let data of tableDataSet; let i=index" style="align-content: center; vertical-align: middle;">
         <tr>
           <td>
             {{ data.taskNumber }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.status}}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.initiatorName}}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.title}}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.startTaskDate }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.endTaskDate }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.executedTime}}
           </td>
         </tr>
@@ -61,5 +62,4 @@
   </div>
 </div>
 
-<app-loader [loading]="isLoading"></app-loader>
 <app-error-modal #errorModal></app-error-modal>

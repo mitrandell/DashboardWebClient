@@ -5,10 +5,10 @@
       <button type="button" class="btn btn-primary" (click)="createDataSet()"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
   </div>
-  <div class="chart-container">
+  <div class="chart-container" style="position: relative">
+    <app-loader [loading]="isLoading"></app-loader>
     <canvas height="400" #chart id="chart">{{ chart }}</canvas>
   </div>
 </div>
 
-<app-loader [loading]="isLoading"></app-loader>
 <app-error-modal #errorModal></app-error-modal>

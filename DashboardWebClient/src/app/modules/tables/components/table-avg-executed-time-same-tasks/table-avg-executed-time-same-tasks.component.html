@@ -1,11 +1,12 @@
 <div class="mt-5 shadow-lg">
   <div class="table-title d-inline-flex col-12 border border-secondary-subtle border-bottom-0 border-1 p-3 mb-0 rounded-top">
-    <h5 class="mt-1 tableText">Среднее время выполнения однотипных обращений</h5>
-    <div class="ms-auto">
+    <h3 class="mt-1 mx-auto">Среднее время выполнения однотипных обращений</h3>
+    <div>
       <button type="button" class="btn btn-primary" (click)="createDataSet()"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
   </div>
-  <div class="table-responsive text-center" style="max-height: 400px">
+  <div class="table-responsive text-center" style="max-height: 400px; position: relative">
+    <app-loader [loading]="isLoading"></app-loader>
     <table table class="table table-light table-bordered table-hover mb-0">
       <thead class="text-center">
         <tr>
@@ -23,18 +24,18 @@
           </th>
         </tr>
       </thead>
-      <tbody *ngFor="let data of tableDataSet; let i=index">
+      <tbody *ngFor="let data of tableDataSet; let i=index" style="align-content: center; vertical-align: middle;">
         <tr>
           <td>
             {{ data.system }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.title}}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.count}}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.avgExecutedTime}}
           </td>
         </tr>
@@ -57,5 +58,4 @@
   </div>
 </div>
 
-<app-loader [loading]="isLoading"></app-loader>
 <app-error-modal #errorModal></app-error-modal>

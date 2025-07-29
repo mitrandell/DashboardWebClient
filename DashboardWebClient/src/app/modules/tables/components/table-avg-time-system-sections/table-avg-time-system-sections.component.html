@@ -1,11 +1,12 @@
 <div class="mt-5 shadow-lg">
   <div class="table-title d-flex col-12 border border-secondary-subtle border-bottom-0 border-1 p-3 mb-0 rounded-top">
-    <h5 class="col-9 mt-1 text-center">Среднее время выполнения по разделам системы</h5>
-    <div class="ms-auto">
+    <h3 class="mt-1 mx-auto">Среднее время выполнения по разделам системы</h3>
+    <div>
       <button type="button" class="btn btn-primary" (click)="createDataSet()"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
   </div>
-  <div class="table-responsive text-center" style="max-height: 400px">
+  <div class="table-responsive text-center" style="max-height: 400px; position: relative">
+    <app-loader [loading]="isLoading"></app-loader>
     <table class="table table-light table-bordered table-hover mb-0">
       <thead class="text-center">
         <tr>
@@ -50,5 +51,4 @@
   </div>
 </div>
 
-<app-loader [loading]="isLoading"></app-loader>
 <app-error-modal #errorModal></app-error-modal>
