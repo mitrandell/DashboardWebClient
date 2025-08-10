@@ -82,7 +82,7 @@ export class EditDeveloperTaskComponent {
       this.isLoading = true;
       this.taskService.editDeveloperTask(this.form.value).subscribe({
         next: result => {
-          this.taskService.changeCriticalTaskData$.next(true);
+          this.taskService.changeDeveloperTaskData$.next(true);
           this.modalService.dismissAll();
           this.isLoading = false;
         },

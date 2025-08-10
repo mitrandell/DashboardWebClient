@@ -68,7 +68,7 @@ export class BarchartSameTasksComponent extends ChartBase {
               text: 'Количество обращений'
             },
             ticks: {
-              stepSize: 5
+              stepSize: 2
             }
           }
         },

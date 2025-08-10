@@ -23,7 +23,7 @@ export class ListDeveloperTaskComponent {
 
   isLoading = false;
 
-  isChangeCriticalTaskDataSubscribtion!: Subscription;
+  isChangeTaskDataSubscribtion!: Subscription;
 
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
 
@@ -31,7 +31,7 @@ export class ListDeveloperTaskComponent {
 
   ngOnInit() {
     this.createDataSet();
-    this.isChangeCriticalTaskDataSubscribtion = this.taskService.changeCriticalTaskData$.subscribe(result => {
+    this.isChangeTaskDataSubscribtion = this.taskService.changeDeveloperTaskData$.subscribe(result => {
       if (result) {
         this.createDataSet();
       }
@@ -86,6 +86,6 @@ export class ListDeveloperTaskComponent {
   }
 
   ngOnDestroy() {
-    this.isChangeCriticalTaskDataSubscribtion.unsubscribe();
+    this.isChangeTaskDataSubscribtion.unsubscribe();
   }
 }

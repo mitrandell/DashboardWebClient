@@ -193,6 +193,56 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
     })
   }
 
+  createDataSetForMonth() {
+    this.isLoading = true;
+    this.taskService.getTasks(this.requestDate).subscribe({
+      next: result => {
+        if (Array.isArray(result)) {
+          this.taskData = result;
+
+          const labels: string[] = this.taskData.map(data => data.startTaskDate);
+
+          var uniqueLabels = labels.filter((value, index, array) => {
+            return array.indexOf(value) === index;
+          })
+
+          this.chartLabelSet = uniqueLabels.map(x => this.datePipe.transform(x, "dd"));
+
+          const systems = this.taskData.map(item => item.systemSectionName);
+
+          var uniqueSystems = systems.filter((value, index, array) => {
+            return array.indexOf(value) === index;
+          })
+
+          const dataSets = uniqueSystems.map(system => {
+            const systemData = uniqueLabels.map(date => {
+              const item = this.taskData.map(d => d.startTaskDate === date && d.systemSectionName === system);
+
+
+              return item.reduce((acc, val) => val ? acc + 1 : acc, 0);
+            })
+
+            return {
+              label: system,
+              data: systemData
+            }
+          })
+
+          this.chartDataSet = dataSets;
+
+          const config = this.formationConfig();
+          this.updateChartData(this.chartCanvas.nativeElement, config);
+        }
+
+        this.isLoading = false;
+      },
+      error: err => {
+        this.isLoading = false;
+        this.errorModal.openModal(err);
+      }
+    })
+  }
+
 
   loadData() {
     this.destroyChart();
@@ -203,6 +253,10 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
     if (this.filterType === filterTypesConst.Year) {
       this.createDataSetForYear();
       this.stepSize = 40;
+    }
+    if (this.filterType === filterTypesConst.Month) {
+      this.createDataSetForMonth();
+      this.stepSize = 10;
     }
   }
 

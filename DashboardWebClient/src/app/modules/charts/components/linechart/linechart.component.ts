@@ -21,7 +21,7 @@ Chart.register(BarController, CategoryScale, LinearScale, BarElement, Legend, Ti
 export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
 
   taskData: TaskData[] = [];
-  chartLabelSet: string[] = [];
+  chartLabelSet: (string | null)[] = [];
   chartDataSet: any;
   isLoading = false;
   months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
@@ -73,6 +73,7 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
         maintainAspectRatio: false,
         scales: {
           y: {
+            beginAtZero: true,
             title: {
               display: false,
               text: 'Количество обращений'
@@ -188,6 +189,58 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
     })
   }
 
+    createDataSetForMonth() {
+    this.isLoading = true;
+    this.taskService.getTasks(this.requestDate).subscribe({
+      next: result => {
+        if (Array.isArray(result)) {
+          this.taskData = result;
+
+          const labels: string[] = this.taskData.map(data => data.startTaskDate);
+
+          var uniqueLabels = labels.filter((value, index, array) => {
+            return array.indexOf(value) === index;
+          })
+
+          this.chartLabelSet = uniqueLabels.map(x => this.datePipe.transform(x, "dd"));
+
+          let data: number[] = [];
+          const counted = new Set();
+
+          for (let i = 0; i < labels.length; i++) {
+            if (counted.has(labels[i])) {
+              continue;
+            }
+
+            let count = 1;
+
+            for (let j = i + 1; j < labels.length; j++) {
+              if (labels[i] === labels[j]) {
+                count += 1;
+              }
+            }
+
+            data.push(count);
+            counted.add(labels[i]);
+
+          }
+
+          this.chartDataSet = data;
+
+          const config = this.formationConfig();
+          this.updateChartData(this.chartCanvas.nativeElement, config);
+        }
+
+        this.isLoading = false;
+      },
+      error: err => {
+        this.errorModal.openModal(err);
+        this.isLoading = false;
+      }
+    })
+  }
+
+
   loadData() {
     this.destroyChart();
     if (this.filterType === filterTypesConst.Weak) {
@@ -197,6 +250,10 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
     if (this.filterType === filterTypesConst.Year) {
       this.createDataSetForYear();
       this.stepSize = 40;
+    }
+    if (this.filterType === filterTypesConst.Month) {
+      this.createDataSetForMonth();
+      this.stepSize = 10;
     }
   }
 

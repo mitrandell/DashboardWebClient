@@ -27,12 +27,19 @@ export class DashboardComponent implements OnInit {
     return this.activeFilter === filterTypesConst.Weak;
   }
 
+  get isMonthFilterEntered(): boolean {
+    return this.activeFilter === filterTypesConst.Month;
+  }
   get isYearFilterEntered(): boolean {
     return this.activeFilter === filterTypesConst.Year;
   }
 
   get weakFilterType(): string {
     return filterTypesConst.Weak;
+  }
+
+  get monthFilterType(): string {
+    return filterTypesConst.Month;
   }
 
   get yearFilterType(): string {
@@ -43,6 +50,11 @@ export class DashboardComponent implements OnInit {
     if (filter === filterTypesConst.Weak) {
       const currentDate = new Date();
       const getDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 7, 0, 0, 0);
+      this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
+    }
+    if (filter === filterTypesConst.Month) {
+      const currentDate = new Date();
+      const getDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
       this.requestDate = this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
     }
     if (filter === filterTypesConst.Year) {
@@ -57,6 +69,10 @@ export class DashboardComponent implements OnInit {
     const currentDate = new Date();
     if (filter === filterTypesConst.Weak) {
       const getDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 7, 0, 0, 0);
+      return this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
+    }
+    if (filter === filterTypesConst.Month) {
+      const getDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
       return this.datePipe.transform(getDate, "yyyy-MM-dd HH:mm:ss");
     }
     if (filter === filterTypesConst.Year) {

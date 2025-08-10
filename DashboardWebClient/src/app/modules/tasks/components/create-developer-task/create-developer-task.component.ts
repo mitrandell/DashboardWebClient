@@ -56,7 +56,7 @@ export class CreateDeveloperTaskComponent {
         this.taskService.addDeveloperTask(this.form.value).subscribe({
           next: result => {
             this.modalService.dismissAll();
-            this.taskService.changeCriticalTaskData$.next(true);
+            this.taskService.changeDeveloperTaskData$.next(true);
             this.isLoading = false;
           },
           error: err => {

@@ -12,8 +12,9 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class TaskService {
-  public changeTaskData$ = new Subject<boolean>();
-  public changeCriticalTaskData$ = new Subject<boolean>();
+  changeTaskData$ = new Subject<boolean>();
+  changeDeveloperTaskData$ = new Subject<boolean>();
+  changeCriticalTaskData$ = new Subject<boolean>();
   apiUrl = environment.apiUrl;
 
   constructor(private httpClient: HttpClient) { }
