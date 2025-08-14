@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, Input, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ChartBase } from '../../shared/chart-base.class';
 import { Chart } from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { TaskData } from '../../../tasks/shared/models/task-data.model';
 
 import { ChartConfiguration, ChartData, BarController, CategoryScale, LinearScale, BarElement, Legend, Title, Tooltip } from 'chart.js';
@@ -52,27 +53,39 @@ export class BarchartSameTasksComponent extends ChartBase {
         labels: this.chartLabelSet,
         datasets: this.chartDataSet
       },
+      plugins: [ChartDataLabels],
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        indexAxis: 'y',
         scales: {
           x: {
             display: false,
-            stacked: false,
           },
           y: {
-            stacked: false,
+            stacked: true,
             beginAtZero: true,
-            title: {
-              display: false,
-              text: 'Количество обращений'
-            },
-            ticks: {
-              stepSize: 2
-            }
           }
         },
-      }
+        plugins: {
+          legend: {
+            display: false
+          },
+          datalabels: {
+            display: function (context) {
+              return context.dataset.data[context.dataIndex] !== 0;
+            },
+        
+            anchor: 'end',
+            align: 'end',
+            color: '#000',
+            font: {
+              weight: 'bold',
+              size: 12
+            }
+          }
+        }
+      },
     };
 
     return config;

@@ -10,6 +10,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { ErrorModalComponent } from '../../../shared/components/error-modal/error-modal.component';
 import { filterTypesConst } from '../../../utils/filter-constants';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 Chart.register(BarController, CategoryScale, LinearScale, BarElement, Legend, Title, Tooltip);
 
@@ -56,6 +57,7 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
   formationConfig() {
     const config: ChartConfiguration<'line'> = {
       type: 'line',
+      plugins: [ChartDataLabels],
       data: {
         labels: this.chartLabelSet,
         datasets: [
@@ -72,20 +74,35 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
+          x: {
+            beginAtZero: false,
+          },
           y: {
-            beginAtZero: true,
-            title: {
-              display: false,
-              text: 'Количество обращений'
-            },
+            display: false,
             ticks: {
-              stepSize: this.stepSize,
-            }
+              stepSize: 30,
+            },
+
+            beginAtZero: true,
+            
           }
         },
         plugins: {
           legend: {
             display: false
+          },
+          datalabels: {
+            display: function (context) {
+              return context.dataset.data[context.dataIndex] !== 0;
+            },
+
+            anchor: 'end',
+            align: 'end',
+            color: '#000',
+            font: {
+              weight: 'bold',
+              size: 12
+            }
           }
         }
       }
