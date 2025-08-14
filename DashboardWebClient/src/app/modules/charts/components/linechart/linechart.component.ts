@@ -27,7 +27,7 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
   isLoading = false;
   months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
   currentDate = new Date();
-  stepSize: number = 1;
+  stepSize: number = 10;
 
   @Input() requestDate: string | null = '';
   @Input() filterType: string = ''
@@ -80,7 +80,7 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
           y: {
             display: false,
             ticks: {
-              stepSize: 30,
+              stepSize: this.stepSize,
             },
 
             beginAtZero: true,
@@ -262,15 +262,15 @@ export class LinechartComponent extends ChartBase implements OnInit, OnDestroy {
     this.destroyChart();
     if (this.filterType === filterTypesConst.Weak) {
       this.createDataSetForWeak();
-      this.stepSize = 1;
-    }
-    if (this.filterType === filterTypesConst.Year) {
-      this.createDataSetForYear();
-      this.stepSize = 40;
+      this.stepSize = 10;
     }
     if (this.filterType === filterTypesConst.Month) {
       this.createDataSetForMonth();
       this.stepSize = 10;
+    }
+    if (this.filterType === filterTypesConst.Year) {
+      this.createDataSetForYear();
+      this.stepSize = 40;
     }
   }
 

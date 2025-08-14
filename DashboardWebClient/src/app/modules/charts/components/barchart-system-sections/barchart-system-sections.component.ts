@@ -27,7 +27,7 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
   chartDataSet: any;
   isLoading = false;
   months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-  stepSize: number = 1;
+  stepSize: number = 10;
 
   datePipe = inject(DatePipe);
 
@@ -69,6 +69,9 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
           },
           y: {
             display: false,
+            ticks: {
+              stepSize: this.stepSize,
+            }
           }
         },
         plugins: {
@@ -260,15 +263,15 @@ export class BarchartSystemSectionsComponent extends ChartBase implements OnInit
     this.destroyChart();
     if (this.filterType === filterTypesConst.Weak) {
       this.createDataSetForWeak();
-      this.stepSize = 1;
-    }
-    if (this.filterType === filterTypesConst.Year) {
-      this.createDataSetForYear();
-      this.stepSize = 40;
+      this.stepSize = 10;
     }
     if (this.filterType === filterTypesConst.Month) {
       this.createDataSetForMonth();
       this.stepSize = 10;
+    }
+    if (this.filterType === filterTypesConst.Year) {
+      this.createDataSetForYear();
+      this.stepSize = 40;
     }
   }
 
