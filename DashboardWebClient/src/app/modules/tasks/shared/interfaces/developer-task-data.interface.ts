@@ -7,5 +7,6 @@ export interface DeveloperTaskData {
   startDate: string,
   endDate: string,
   actionStatus: string,
+  urlToRedmineTask: string,
   createAt: string
 }

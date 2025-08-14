@@ -47,6 +47,7 @@ export class EditDeveloperTaskComponent {
       startDate: [''],
       endDate: [''],
       createAt: [''],
+      urlToRedmineTask: [''],
       actionStatus: ['В процессе']
     });
   }
@@ -69,6 +70,7 @@ export class EditDeveloperTaskComponent {
       startDate: task?.startDate,
       endDate: task?.endDate,
       actionStatus: task?.actionStatus,
+      urlToRedmineTask: task?.urlToRedmineTask,
       createAt: task?.createAt
     })
 

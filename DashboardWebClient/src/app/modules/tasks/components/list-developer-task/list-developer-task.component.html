@@ -47,13 +47,16 @@
             {{ data.description }}
           </td>
           <td>
-            {{ data.startDate | date : "dd/MM/yy HH:mm"}}
+            {{ data.startDate | date : "dd/MM/yy"}}
           </td>
           <td>
-            {{ data.endDate | date : "dd/MM/yy HH:mm"}}
+            {{ data.endDate | date : "dd/MM/yy"}}
           </td>
           <td>
             {{ data.actionStatus }}
+          </td>
+          <td class="target-link">
+            <a href="{{ data.urlToRedmineTask }}" target="_blank"><i class="bi bi-box-arrow-up-right h4"></i></a>
           </td>
         </tr>
       </tbody>

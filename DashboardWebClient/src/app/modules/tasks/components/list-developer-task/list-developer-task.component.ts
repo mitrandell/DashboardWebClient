@@ -61,6 +61,12 @@ export class ListDeveloperTaskComponent {
   }
 
   showContextMenu(event: MouseEvent, index: number) {
+
+    const target = event.target as HTMLElement;
+    if (target.closest('td[class="target-link"]')) {
+      return;
+    }
+
     event.preventDefault();
 
     this.contextMenuPosition = {

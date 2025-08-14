@@ -39,6 +39,7 @@ export class CreateDeveloperTaskComponent {
     description: [''],
     startDate: [''],
     endDate: [''],
+    urlToRedmineTask: [''],
     actionStatus: ['В процессе']
   }
 
