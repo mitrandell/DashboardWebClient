@@ -106,12 +106,8 @@ export class BarchartSameTasksComponent extends ChartBase {
 
           this.taskDates = this.taskData.map(data => data.startTaskDate);
 
-          /*taskTitles.filter(k => k === x.title).length > 10*/
           const taskTitles = this.taskData.map(item => item.title);
           const duplicateTaskTitles = this.duplicateTitlesFilter(taskTitles);
-          //taskTitles.filter((value, index, array) => {
-          //  return array.indexOf(value) !== index && array.lastIndexOf(value) === index && taskTitles.filter(k => k === value).length > 3;
-          //})
 
           const uniqueTaskData = this.taskData.filter(x => duplicateTaskTitles.includes(x.title) && this.taskDates.includes(x.startTaskDate));
           const systems = uniqueTaskData.map(item => item.systemSectionName);
