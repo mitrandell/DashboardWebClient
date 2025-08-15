@@ -40,6 +40,7 @@ export class CreateCriticalTaskComponent {
     description: [''],
     startDate: [''],
     endDate: [''],
+    urlToRedmineTask: [''],
     actionStatus: ['В процессе']
   }
 
