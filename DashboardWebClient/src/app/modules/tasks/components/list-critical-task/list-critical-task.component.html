@@ -11,26 +11,23 @@
           <th>
             Номер
           </th>
-          <th>
+          <th class="col-1">
             Статус в itsm
           </th>
-          <th>
+          <th class="col-1">
             Статуc в redmine
           </th>
           <th>
             Описание
           </th>
-          <th>
+          <th class="col-1">
             Дата регистрации
           </th>
-          <th>
+          <th class="col-1">
             Крайний срок
           </th>
-          <th>
-            Статус проблемы
-          </th>
-          <th>
-            Открыть в RM
+          <th class="col-1">
+            Открыть в redmine
           </th>
         </tr>
       </thead>
@@ -39,23 +36,20 @@
           <td>
             {{ data.taskNumber }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.itsmStatus }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.redmineSatus }}
           </td>
           <td class="critical-task-description">
             {{ data.description }}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.startDate | date : "dd/MM/yy"}}
           </td>
-          <td class="text-center">
+          <td>
             {{ data.endDate | date : "dd/MM/yy"}}
-          </td>
-          <td class="text-center">
-            {{ data.actionStatus }}
           </td>
           <td class="target-link">
             <a href="{{ data.urlToRedmineTask }}" target="_blank"><i class="bi bi-box-arrow-up-right h4"></i></a>

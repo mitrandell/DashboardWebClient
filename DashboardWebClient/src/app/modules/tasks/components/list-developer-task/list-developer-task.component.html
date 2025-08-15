@@ -12,25 +12,22 @@
           <th>
             Номер
           </th>
-          <th>
+          <th class="col-1">
             Статус в itsm
           </th>
-          <th>
+          <th class="col-1">
             Статув в redmine
           </th>
           <th>
             Описание
           </th>
-          <th>
+          <th class="col-1">
             Дата регистрации
           </th>
-          <th>
+          <th class="col-1">
             Крайний срок
           </th>
-          <th>
-            Статус проблемы
-          </th>
-          <th>
+          <th class="col-1">
             Открыть в redmine
           </th>
         </tr>
@@ -55,10 +52,7 @@
           <td>
             {{ data.endDate | date : "dd/MM/yy"}}
           </td>
-          <td>
-            {{ data.actionStatus }}
-          </td>
-          <td class="target-link">
+          <td class="target-link ">
             <a href="{{ data.urlToRedmineTask }}" target="_blank"><i class="bi bi-box-arrow-up-right h4"></i></a>
           </td>
         </tr>
