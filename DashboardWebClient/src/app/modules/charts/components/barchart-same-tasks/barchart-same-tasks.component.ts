@@ -10,6 +10,7 @@ import { calculateAverageTime } from '../../../utils/avg-time-calculator';
 import { Subscription } from 'rxjs';
 import { TaskService } from '../../../tasks/shared/tasks.service';
 import { ErrorModalComponent } from '../../../shared/components/error-modal/error-modal.component';
+import { filterTypesConst } from '../../../utils/filter-constants';
 
 Chart.register(BarController, CategoryScale, LinearScale, BarElement, Legend, Title, Tooltip);
 
@@ -29,6 +30,7 @@ export class BarchartSameTasksComponent extends ChartBase {
   datePipe = inject(DatePipe);
   isChangeTaskDataSubscribtion!: Subscription;
 
+  @Input() filterType: string = ''
   @Input() requestDate: string | null = '';
   @ViewChild('chart', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
@@ -61,6 +63,9 @@ export class BarchartSameTasksComponent extends ChartBase {
         scales: {
           x: {
             display: false,
+            ticks: {
+              stepSize: 100,
+            }
           },
           y: {
             stacked: true,
@@ -101,10 +106,12 @@ export class BarchartSameTasksComponent extends ChartBase {
 
           this.taskDates = this.taskData.map(data => data.startTaskDate);
 
+          /*taskTitles.filter(k => k === x.title).length > 10*/
           const taskTitles = this.taskData.map(item => item.title);
-          const duplicateTaskTitles = taskTitles.filter((value, index, array) => {
-            return array.indexOf(value) !== index && array.lastIndexOf(value) === index;
-          })
+          const duplicateTaskTitles = this.duplicateTitlesFilter(taskTitles);
+          //taskTitles.filter((value, index, array) => {
+          //  return array.indexOf(value) !== index && array.lastIndexOf(value) === index && taskTitles.filter(k => k === value).length > 3;
+          //})
 
           const uniqueTaskData = this.taskData.filter(x => duplicateTaskTitles.includes(x.title) && this.taskDates.includes(x.startTaskDate));
           const systems = uniqueTaskData.map(item => item.systemSectionName);
@@ -136,6 +143,20 @@ export class BarchartSameTasksComponent extends ChartBase {
         this.isLoading = false;
         this.errorModal.openModal(err);
       }
+    })
+  }
+
+  private duplicateTitlesFilter(taskTitles: string[]) {
+    let countTitles = 2;
+    if (this.filterType === filterTypesConst.Month) {
+      countTitles = 3;
+    }
+    if (this.filterType === filterTypesConst.Year) {
+      countTitles = 10;
+    }
+
+    return taskTitles.filter((value, index, array) => {
+      return array.indexOf(value) !== index && array.lastIndexOf(value) === index && taskTitles.filter(title => title === value).length >= countTitles;
     })
   }
 

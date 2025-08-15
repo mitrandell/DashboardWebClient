@@ -9,7 +9,7 @@
   </div>
 </div>
 <app-linechart [requestDate]="requestDate" [filterType]="activeFilter"></app-linechart>
-<app-barchart-same-tasks [requestDate]="requestDate"></app-barchart-same-tasks>
+<app-barchart-same-tasks [requestDate]="requestDate" [filterType]="activeFilter"></app-barchart-same-tasks>
 <app-barchart-system-sections [requestDate]="requestDate" [filterType]="activeFilter"></app-barchart-system-sections>
 
 @defer (on viewport){
