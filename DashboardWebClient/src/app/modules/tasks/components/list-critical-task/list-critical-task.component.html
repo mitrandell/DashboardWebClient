@@ -29,6 +29,9 @@
           <th>
             Статус проблемы
           </th>
+          <th>
+            Открыть в RM
+          </th>
         </tr>
       </thead>
       <tbody *ngFor="let data of taskData; let i=index" (click)="showContextMenu($event, i)" style="cursor: pointer">

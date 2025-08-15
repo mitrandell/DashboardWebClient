@@ -30,6 +30,9 @@
           <th>
             Статус проблемы
           </th>
+          <th>
+            Открыть в redmine
+          </th>
         </tr>
       </thead>
       <tbody *ngFor="let data of taskData; let i=index" (click)="showContextMenu($event, i)" style="cursor: pointer">
