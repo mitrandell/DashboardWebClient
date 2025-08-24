@@ -1,0 +1,38 @@
+
+<div class="border rounded-3 shadow p-2 mt-2">
+  <button class="btn btn-primary" (click)="creating(true); defaultCreateScriptForm()">Добавить</button>
+</div>
+
+<div *ngIf="isCreating">
+  <form  class="col-12 create-script-form rounded-3 p-3 mt-2" [formGroup]="createScriptForm" (ngSubmit)="create()">
+    <div class="form-group">
+      <input type="text"
+             class="mt-2 form-control"
+             id="title-create-form-field"
+             formControlName="title"
+             name="title-field"
+             placeholder="Введите название блока"
+             maxlength="1000" />
+    </div>
+    <div formArrayName="descriptions">
+      <div *ngFor="let field of fields.controls; let i=index">
+        <div [formGroupName]="i">
+          <div class="form-group">
+            <div class="col-12 textarea-wrapper">
+              <textarea autosize class="col-10 create-script-description mt-2 form-control" formControlName="description"></textarea>
+              <button class="btn btn-danger mt-1 remove-field-button" (click)="removeField(i)"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-1">
+        <button type="button" class="btn btn-primary mt-2 mx-auto shadow text-light" (click)="addField()">+</button>
+      </div>
+    </div>
+    <hr style="color: white" class="ms-0" />
+    <div class="col-6 me-2">
+      <button type="submit" class="btn btn-success text-light me-2">Сохранить</button>
+      <button class="btn btn-danger text-light me-2" (click)="creating(false)">Отменить</button>
+    </div>
+  </form>
+</div>

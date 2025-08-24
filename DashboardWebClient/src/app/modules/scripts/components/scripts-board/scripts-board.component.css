@@ -1,0 +1,67 @@
+.list-script {
+  background-color: #282828;
+  box-shadow: 8px 5px 5px #696969;
+}
+
+input, textarea {
+  border: none !important;
+  background-color: #696969;
+}
+
+input {
+  color: white;
+}
+
+textarea {
+  color: #4aff00;
+}
+
+textarea:focus {
+  outline: none !important;
+  color: #00ff66;
+  background-color: #696969;
+  box-shadow: 0 0 10px #719ECE;
+}
+
+input:focus {
+  outline: none !important;
+  background-color: #696969;
+  box-shadow: 0 0 10px #719ECE;
+  color: white;
+}
+
+
+.textarea-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.copy-field-button {
+  position: absolute;
+  top: 8px;
+  right: 2px;
+}
+
+
+.input-edit-form{
+    display: inline-block;
+    position: relative;
+}
+
+.edit-button {
+  position: absolute;
+  color: #ababab;
+  bottom: 5px;
+  border: none;
+  background-color: transparent;
+  right: 2px;
+}
+
+.delete-button {
+  position: absolute;
+  color: #ababab;
+  bottom: 5px;
+  border: none;
+  background-color: transparent;
+  right: 40px;
+}

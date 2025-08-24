@@ -1,0 +1,47 @@
+
+input, textarea {
+  border: none !important;
+  background-color: #696969;
+}
+
+input {
+  color: white;
+}
+
+textarea {
+  color: #4aff00;
+}
+
+textarea:focus {
+  outline: none !important;
+  color: #00ff66;
+  background-color: #696969;
+  box-shadow: 0 0 10px #719ECE;
+}
+
+input:focus {
+  outline: none !important;
+  background-color: #696969;
+  box-shadow: 0 0 10px #719ECE;
+  color: white;
+}
+
+.edit-script-form {
+  background-color: #282828;
+  box-shadow: 10px 5px 5px #696969;
+}
+
+.textarea-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.remove-field-button {
+  position: absolute;
+  top: 8px;
+  right: 2px;
+}
+
+.edit-script-description {
+  padding-right: 50px;
+}

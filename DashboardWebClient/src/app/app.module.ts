@@ -32,6 +32,10 @@ import { HttpInterceptorService } from './modules/authorization/services/http-in
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotesBoardComponent } from './modules/notes/components/notes-board/notes-board.component';
 import { NgxEditorModule } from 'ngx-editor';
+import { ScriptsBoardComponent } from './modules/scripts/components/scripts-board/scripts-board.component';
+import { AutosizeModule } from 'ngx-autosize';
+import { CreateScriptComponent } from './modules/scripts/components/create-script/create-script.component';
+import { EditScriptComponent } from './modules/scripts/components/edit-script/edit-script.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,10 @@ import { NgxEditorModule } from 'ngx-editor';
     EditBussinessDayComponent,
     ErrorModalComponent,
     UserLoginComponent,
-    NotesBoardComponent
+    NotesBoardComponent,
+    ScriptsBoardComponent,
+    CreateScriptComponent,
+    EditScriptComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +73,8 @@ import { NgxEditorModule } from 'ngx-editor';
     FormsModule,
     ReactiveFormsModule,
     DragDropModule,
-    NgxEditorModule
+    NgxEditorModule,
+    AutosizeModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }, DatePipe],
   bootstrap: [AppComponent]

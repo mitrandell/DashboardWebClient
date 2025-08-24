@@ -1,0 +1,39 @@
+<app-create-script></app-create-script>
+<div class="mt-4">
+  <div *ngFor="let note of scriptNotes; let i=index" class="col-12 list-script rounded-3 p-3 mt-2">
+    <div *ngIf="!note.isEditing">
+      <div class="form-group input-edit-form col-12">
+        <input type="text"
+                class="form-control"
+                id="title-create-form-field"
+                value={{note.title}}
+                name="title-field"
+                placeholder="Введите название блока"
+                maxlength="1000"
+                readonly
+                style="cursor: pointer"
+                (click)="collapseNote(i)"/>
+        <button *ngIf="!note.isEditing" class="edit-button" (click)="editing(note); editScript.foramtionEditData(note)"><i class="bi bi-pencil"></i></button>
+        <button *ngIf="!note.isEditing" class="delete-button" (click)="deleteScriptNote(note)"><i class="bi bi-trash"></i></button>
+      </div>
+      <div *ngIf="!note.isCollapsed" class="mt-2">
+        <div *ngFor="let descriptionObject of note.descriptions; let i=index">
+          <div class="form-group">
+            <div class="col-12 textarea-wrapper">
+              <textarea autosize
+                        class="col-10 create-script-description form-control"
+                        readonly
+                        value={{descriptionObject.description}}
+                        #scriptDescription></textarea>
+              <button class="btn mt-1 copy-field-button" (click)="copyToClipboard(scriptDescription)"><i class="bi bi-copy text-white"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-edit-script #editScript [scriptNote]="note" [isEditing]="note.isEditing" (editState)="editing($event)"></app-edit-script>
+  </div>
+</div>
+
+<app-error-modal #errorModal></app-error-modal>
+
