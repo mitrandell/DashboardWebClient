@@ -1,0 +1,34 @@
+
+<form *ngIf="isEditing" class="col-12 title-script-form rounded-3" [formGroup]="editScriptForm" (ngSubmit)="create()">
+  <div class="form-group">
+    <input type="text"
+           class="mt-2 form-control"
+           id="title-edit-form-field"
+           formControlName="title"
+           name="title-field"
+           placeholder="Введите название блока"
+           maxlength="1000" />
+  </div>
+  <div formArrayName="descriptions">
+    <div *ngFor="let field of fields.controls; let i=index">
+      <div [formGroupName]="i">
+        <div class="form-group">
+          <div class="col-12 textarea-wrapper">
+            <textarea autosize class="col-10 title-script-description mt-2 form-control" formControlName="description"></textarea>
+            <button class="btn mt-1 remove-field-button text-white" (click)="removeField(i)"><i class="bi bi-trash"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-1">
+      <button type="button" class="btn btn-primary mt-2 mx-auto shadow text-light" (click)="addField()">+</button>
+    </div>
+  </div>
+  <hr style="color: white" class="ms-0" />
+  <div class="col-6 me-2">
+    <button type="submit" class="btn btn-success text-light me-2">Сохранить</button>
+    <button class="btn btn-danger" (click)="editing()">Отменить</button>
+  </div>
+</form>
+
+<app-error-modal #errorModal></app-error-modal>

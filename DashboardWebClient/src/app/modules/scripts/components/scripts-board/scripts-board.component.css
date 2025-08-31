@@ -1,0 +1,118 @@
+.list-script {
+  background-color: #282828;
+  box-shadow: 8px 5px 5px #696969;
+}
+
+input, textarea {
+  border: none !important;
+  background-color: #696969;
+}
+
+input {
+  color: white;
+}
+
+textarea {
+  color: #00ff66;
+}
+
+textarea:focus {
+  outline: none !important;
+  color: #4aff00;
+  background-color: #696969;
+  box-shadow: 0 0 10px #719ECE;
+}
+
+input:focus {
+  outline: none !important;
+  background-color: #696969;
+  box-shadow: 0 0 10px #719ECE;
+  color: white;
+}
+
+
+.textarea-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.copy-field-button {
+  position: absolute;
+  top: 8px;
+  right: 2px;
+}
+
+
+.input-edit-form{
+    display: inline-block;
+    position: relative;
+}
+
+.edit-button {
+  position: absolute;
+  color: #ababab;
+  bottom: 5px;
+  border: none;
+  background-color: transparent;
+  right: 2px;
+}
+
+.delete-button {
+  position: absolute;
+  color: #ababab;
+  bottom: 5px;
+  border: none;
+  background-color: transparent;
+  right: 40px;
+}
+
+
+.search-wrapper {
+  margin-top: 20px;
+  width: 350px;
+  max-width: 1000px;
+}
+
+.search-box {
+  position: relative;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.20);
+  transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.search-input {
+  background-color: white;
+  border: 2px solid #eee;
+  border-radius: 30px;
+  padding: 5px 25px;
+  padding-right: 50px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  color: black;
+  background-color: white;
+  border-color: #007bff;
+  box-shadow: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.30);
+}
+
+.search-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.search-box:focus-within .search-icon {
+  color: #007bff;
+}
