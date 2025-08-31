@@ -11,7 +11,10 @@ import { ErrorModalComponent } from '../../../shared/components/error-modal/erro
 })
 export class ScriptsBoardComponent implements OnInit {
   scriptNotes: ScriptNote[] = [];
+  filteringinScriptNotes: ScriptNote[] = [];
   changeScriptDataSubscribtion!: Subscription;
+  isFilter: boolean = false;
+
 
   @ViewChild('errorModal') errorModal!: ErrorModalComponent;
 
@@ -22,6 +25,7 @@ export class ScriptsBoardComponent implements OnInit {
     this.changeScriptDataSubscribtion = this.scriptsService.changeScriptData$.subscribe(result => {
       if (result) {
         this.getScriptsData();
+        this.isFilter = false;
       }
     })
   }
@@ -42,6 +46,19 @@ export class ScriptsBoardComponent implements OnInit {
           this.errorModal.openModal(err);
         }
       });
+    }
+  }
+
+  //filtering data by input to search field
+  filteringData(keyUp: string) {
+    this.isFilter = true;
+
+    //filtering data to events in progress status
+    this.filteringinScriptNotes = this.scriptNotes.filter((value: {title: string }) =>
+      value.title.toLowerCase().includes(keyUp.toLowerCase()));
+
+    if (keyUp === '') {
+      this.isFilter = false;
     }
   }
 
